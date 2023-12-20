@@ -22,6 +22,8 @@ public:
 
     static void displayStrImg(std::string &strImg);
 
+    static int getBAWidthWithHeight(int h);
+
 };
 
 #endif //BADAPPLE_BADAPPLE_HPP

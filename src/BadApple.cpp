@@ -13,8 +13,8 @@ size_t BadApple::nbVideo = 0;
 void BadApple::initBadApple() {
     BadApple::orglBA = cv::VideoCapture(Utils::orglBAPath);
 
-    for (std::string butBAPath : Utils::butBAPaths) {
-        cv::VideoCapture butBA = cv::VideoCapture(Utils::orglBAPath);
+    for (const std::string &butBAPath : Utils::butBAPaths) {
+        cv::VideoCapture butBA = cv::VideoCapture(butBAPath);
         BadApple::butBAList.push_back(butBA);
         Utils::myAssert(butBA.isOpened(), "Failed to open video.");
     }
@@ -53,4 +53,8 @@ bool BadApple::updateStrImg(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBALi
 
 void BadApple::displayStrImg(std::string &strImg) {
     std::cout << strImg << std::flush;
+}
+
+int BadApple::getBAWidthWithHeight(int h) {
+    return (int) lround(((double) h * ((double) BA_WIDTH / (double) BA_HEIGHT)));
 }

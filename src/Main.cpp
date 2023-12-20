@@ -21,8 +21,11 @@ int main(int argc, char *argv[]) {
     Utils::displayC = argv[3][0];
 
     bool multiThreading = false;
+    bool generateVideo = false;
     if (argc > 4) {
-        if (std::stoi(argv[4]) == 1) multiThreading = true;
+        int value = std::stoi(argv[4]);
+        if (value == 1) multiThreading = true;
+        if (value == 2) generateVideo = true;
     }
 
     BadApple::initBadApple();
@@ -41,18 +44,55 @@ int main(int argc, char *argv[]) {
         const std::string wOrgl = "Original";
         cv::namedWindow(wOrgl, cv::WINDOW_NORMAL);
         cv::moveWindow(wOrgl, 800, 0);
+        const std::string wTarget = "Target";
+        cv::namedWindow(wTarget, cv::WINDOW_NORMAL);
+        cv::moveWindow(wTarget, 800, 400);
 
         cv::Mat imgOrglBA;
         std::vector<cv::Mat> imgButBAList = std::vector<cv::Mat>(BadApple::nbVideo);
+        bool **imgMatrix = (bool **) malloc(sizeof(bool *) * BA_HEIGHT);
+        for (int i = 0; i < BA_HEIGHT; i++) {
+            imgMatrix[i] = (bool *) malloc(sizeof(bool) * BA_WIDTH);
+        }
         while (true) {
             std::string strImg;
             if (!BadApple::updateStrImg(imgOrglBA, imgButBAList, strImg)) {
                 break;
             }
-
-            BadApple::displayStrImg(strImg);
-
+//            BadApple::displayStrImg(strImg);
             cv::imshow(wOrgl, imgOrglBA);
+
+            if (generateVideo) {
+                cv::Mat imgGrayOrglBA;
+                cv::cvtColor(imgOrglBA, imgGrayOrglBA, cv::COLOR_BGR2GRAY);
+                cv::resize(imgGrayOrglBA, imgGrayOrglBA, cv::Size(BA_WIDTH, BA_HEIGHT));
+                cv::Mat targetImg = cv::Mat::zeros(BA_HEIGHT, BA_WIDTH, CV_8UC3);
+                for (int i = 0; i < BA_HEIGHT; i++) {
+                    for (int j = 0; j < BA_WIDTH; j++) {
+                        uint8_t intensity = imgGrayOrglBA.at<uchar>(i, j);
+                        if (intensity > 32) imgMatrix[i][j] = true;
+                        else imgMatrix[i][j] = false;
+                    }
+                }
+
+                while (true) {
+                    Rectangle biggestRect = Utils::popBiggestRectangleInMatrix(imgMatrix,
+                                                                               BA_WIDTH, BA_HEIGHT);
+                    if (biggestRect.h == 0) break;
+
+                    Utils::swapInt(&biggestRect.x, &biggestRect.y);
+                    if (biggestRect.h < 6) {
+                        targetImg(cv::Rect(biggestRect.x, biggestRect.y,
+                                           biggestRect.w, biggestRect.h))
+                                           = cv::Scalar(255, 255, 255);
+                    } else {
+                        Utils::addImgToImg(targetImg, imgButBAList[0],
+                                           biggestRect.x, biggestRect.y,
+                                           biggestRect.w, biggestRect.h);
+                    }
+                }
+                cv::imshow(wTarget, targetImg);
+            }
 
             if (cv::waitKey(30) == 27) {
                 music.pause();
@@ -62,6 +102,10 @@ int main(int argc, char *argv[]) {
                 music.play();
             }
         }
+        for (int i = 0; i < BA_HEIGHT; i++) {
+            free(imgMatrix[i]);
+        }
+        free(imgMatrix);
     }
 
     return EXIT_SUCCESS;
