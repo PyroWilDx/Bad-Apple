@@ -17,6 +17,7 @@ class Utils {
 public:
     static cv::Size targetSize;
     static const char *orglBAPath;
+    static char displayC;
 
     static const std::vector<std::string> butBAPaths;
 

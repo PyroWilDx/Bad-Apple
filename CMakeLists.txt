@@ -12,7 +12,8 @@ include_directories(${ROOT_DIR}/include)
 
 add_executable(BadApple ${ROOT_DIR}/src/Main.cpp
         ${ROOT_DIR}/src/Utils.cpp
-        ${ROOT_DIR}/src/TerminalThreads.cpp)
+        ${ROOT_DIR}/src/TerminalThreads.cpp
+        ${ROOT_DIR}/src/BadApple.cpp)
 
 target_link_libraries(BadApple PRIVATE
         ${OpenCV_LIBS}

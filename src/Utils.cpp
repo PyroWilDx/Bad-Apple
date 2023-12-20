@@ -6,9 +6,9 @@
 #include <cassert>
 #include "Utils.hpp"
 
-// w = 480 / (360 / h);
 cv::Size Utils::targetSize = cv::Size(0, 0);
 const char *Utils::orglBAPath = "res/BadApple.mp4";
+char Utils::displayC;
 
 const std::vector<std::string> Utils::butBAPaths = {"res/BadApple.mp4"};
 
