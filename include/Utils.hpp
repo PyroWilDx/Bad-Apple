@@ -7,6 +7,7 @@
 
 #define BA_WIDTH 480
 #define BA_HEIGHT 360
+#define BA_FPS 30
 
 #include <string>
 #include <vector>

@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include <string>
 #include <filesystem>
 #include <thread>
@@ -9,6 +11,8 @@
 
 // ./BadApple 220 77 X
 int main(int argc, char *argv[]) {
+    srand(time(nullptr));
+
     std::string path = std::filesystem::current_path().string();
     std::filesystem::current_path(path + "/..");
 
@@ -20,13 +24,15 @@ int main(int argc, char *argv[]) {
     Utils::targetSize = cv::Size(std::stoi(argv[1]), std::stoi(argv[2]));
     Utils::displayC = argv[3][0];
 
+    bool terminalMode = false;
     bool multiThreading = false;
     bool generateVideo = false;
     if (argc > 4) {
         int value = std::stoi(argv[4]);
         if (value == 1) multiThreading = true;
-        if (value == 2) generateVideo = true;
-    }
+        else if (value == 2) generateVideo = true;
+        else terminalMode = true;
+    } else terminalMode = true;
 
     BadApple::initBadApple();
 
@@ -34,6 +40,12 @@ int main(int argc, char *argv[]) {
     bool musicOpened = music.openFromFile("res/BadApple.ogg");
     Utils::myAssert(musicOpened, "Failed to open music.");
     music.play();
+
+    char vidName[256];
+    sprintf(vidName, "res/%d.avi", rand());
+    cv::VideoWriter generatedVideo(vidName,
+                                   cv::VideoWriter::fourcc('X', 'V', 'I', 'D'), BA_FPS,
+                                   cv::Size(BA_WIDTH, BA_HEIGHT));
 
     if (multiThreading) {
         std::thread productThread(TerminalThreads::productStrImg);
@@ -45,8 +57,10 @@ int main(int argc, char *argv[]) {
         cv::namedWindow(wOrgl, cv::WINDOW_NORMAL);
         cv::moveWindow(wOrgl, 800, 0);
         const std::string wTarget = "Target";
-        cv::namedWindow(wTarget, cv::WINDOW_NORMAL);
-        cv::moveWindow(wTarget, 800, 400);
+        if (generateVideo) {
+            cv::namedWindow(wTarget, cv::WINDOW_NORMAL);
+            cv::moveWindow(wTarget, 800, 400);
+        }
 
         cv::Mat imgOrglBA;
         std::vector<cv::Mat> imgButBAList = std::vector<cv::Mat>(BadApple::nbVideo);
@@ -59,7 +73,7 @@ int main(int argc, char *argv[]) {
             if (!BadApple::updateStrImg(imgOrglBA, imgButBAList, strImg)) {
                 break;
             }
-//            BadApple::displayStrImg(strImg);
+            if (terminalMode) BadApple::displayStrImg(strImg);
             cv::imshow(wOrgl, imgOrglBA);
 
             if (generateVideo) {
@@ -86,16 +100,20 @@ int main(int argc, char *argv[]) {
                                            biggestRect.w, biggestRect.h))
                                            = cv::Scalar(255, 255, 255);
                     } else {
-                        Utils::addImgToImg(targetImg, imgButBAList[0],
+                        int rd = rand() % imgButBAList.size();
+                        Utils::addImgToImg(targetImg, imgButBAList[rd],
                                            biggestRect.x, biggestRect.y,
                                            biggestRect.w, biggestRect.h);
                     }
                 }
                 cv::imshow(wTarget, targetImg);
+
+                generatedVideo.write(targetImg);
             }
 
             if (cv::waitKey(30) == 27) {
                 music.pause();
+                if (generateVideo) generatedVideo.release();
                 while (true) {
                     if (cv::waitKey(30) == 27) break;
                 }

@@ -12,7 +12,17 @@ const char *Utils::orglBAPath = "res/BadApple.mp4";
 char Utils::displayC;
 
 const std::vector<std::string> Utils::butBAPaths = {
-        "res/BadApple.mp4"
+        "res/Apple.mp4",
+        "res/Cs-Go.mp4",
+        "res/GoogleMaps.mp4",
+        "res/MinecraftEnderman.mp4",
+        "res/MinecraftLava.mp4",
+        "res/MinecraftSheep.mp4",
+        "res/MineSweeper.mp4",
+        "res/StopMotion.mp4",
+        "res/TerminalVLC.mp4",
+        "res/VsCode.mp4",
+        "res/WindowsVirus.mp4"
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
