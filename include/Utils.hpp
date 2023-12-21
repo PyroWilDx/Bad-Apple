@@ -5,9 +5,13 @@
 #ifndef BADAPPLE_UTILS_HPP
 #define BADAPPLE_UTILS_HPP
 
-#define BA_WIDTH 480
-#define BA_HEIGHT 360
+//#define BA_WIDTH 480
+//#define BA_HEIGHT 360
+#define BA_WIDTH 80
+#define BA_HEIGHT 60
 #define BA_FPS 30
+
+#define R_LIST_SIZE 1024
 
 #include <string>
 #include <vector>

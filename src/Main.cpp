@@ -11,7 +11,8 @@
 
 // ./BadApple 220 77 X
 int main(int argc, char *argv[]) {
-    srand(time(nullptr));
+    time_t currTime;
+    srand(time(&currTime));
 
     std::string path = std::filesystem::current_path().string();
     std::filesystem::current_path(path + "/..");
@@ -39,10 +40,10 @@ int main(int argc, char *argv[]) {
     sf::Music music;
     bool musicOpened = music.openFromFile("res/BadApple.ogg");
     Utils::myAssert(musicOpened, "Failed to open music.");
-    music.play();
+    if (terminalMode) music.play();
 
     char vidName[256];
-    sprintf(vidName, "res/%d.avi", rand());
+    sprintf(vidName, "res/%ld.avi", currTime);
     cv::VideoWriter generatedVideo(vidName,
                                    cv::VideoWriter::fourcc('X', 'V', 'I', 'D'), BA_FPS,
                                    cv::Size(BA_WIDTH, BA_HEIGHT));
@@ -68,6 +69,11 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < BA_HEIGHT; i++) {
             imgMatrix[i] = (bool *) malloc(sizeof(bool) * BA_WIDTH);
         }
+        int rdIndexList[R_LIST_SIZE];
+        for (int i = 0; i < R_LIST_SIZE; i++) {
+            rdIndexList[i] = rand() % imgButBAList.size();
+        }
+        int rdUpdateCpt = 0;
         while (true) {
             std::string strImg;
             if (!BadApple::updateStrImg(imgOrglBA, imgButBAList, strImg)) {
@@ -89,6 +95,7 @@ int main(int argc, char *argv[]) {
                     }
                 }
 
+                int rdI = 0;
                 while (true) {
                     Rectangle biggestRect = Utils::popBiggestRectangleInMatrix(imgMatrix,
                                                                                BA_WIDTH, BA_HEIGHT);
@@ -100,24 +107,32 @@ int main(int argc, char *argv[]) {
                                            biggestRect.w, biggestRect.h))
                                            = cv::Scalar(255, 255, 255);
                     } else {
-                        int rd = rand() % imgButBAList.size();
-                        Utils::addImgToImg(targetImg, imgButBAList[rd],
+                        Utils::addImgToImg(targetImg, imgButBAList[rdIndexList[rdI]],
                                            biggestRect.x, biggestRect.y,
                                            biggestRect.w, biggestRect.h);
+                        rdI++;
                     }
                 }
                 cv::imshow(wTarget, targetImg);
 
                 generatedVideo.write(targetImg);
+
+                rdUpdateCpt++;
+                if (rdUpdateCpt == BA_FPS) {
+                    for (int i = 0; i < R_LIST_SIZE; i++) {
+                        rdIndexList[i] = rand() % imgButBAList.size();
+                    }
+                    rdUpdateCpt = 0;
+                }
             }
 
             if (cv::waitKey(30) == 27) {
-                music.pause();
+                if (terminalMode) music.pause();
                 if (generateVideo) generatedVideo.release();
                 while (true) {
                     if (cv::waitKey(30) == 27) break;
                 }
-                music.play();
+                if (terminalMode) music.play();
             }
         }
         for (int i = 0; i < BA_HEIGHT; i++) {
