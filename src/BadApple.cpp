@@ -119,7 +119,7 @@ void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButB
                                  int *rdIndexArray, cv::Mat &targetImg) {
     QuadTree *quadTree = Utils::getQuadTreeFromMatrix(imgMatrix,
                                                       BA_WIDTH, BA_HEIGHT);
-    
+
     std::vector<Rectangle *> rects = {};
     iterateQT(quadTree, imgButBAList, rects);
     std::sort(rects.begin(), rects.end(), &Utils::compareRectangle);

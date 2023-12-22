@@ -12,17 +12,13 @@ const char *Utils::orglBAPath = "res/BadApple.mp4";
 char Utils::displayC;
 
 const std::vector<std::string> Utils::butBAPaths = {
-        "res/Apple.mp4", // OK ZOOM
-        "res/Cs-Go.mp4", // OK ZOOM
-        "res/GoogleMaps.mp4", // SHIT VIDEO
-        "res/MinecraftEnderman.mp4", // SHIT VIDEO
-        "res/MinecraftLava.mp4", // CV TO 30 FPS
-        "res/MinecraftSheep.mp4", // LATE OF VERY LITTLE
-        "res/MineSweeper.mp4", // CV TO 30 FPS & START TOO FAST
-        "res/StopMotion.mp4", // OK
-        "res/TerminalVLC.mp4", // IN ADVANCE OF VERY LITTLE
-        "res/VsCode.mp4", // LATE OF 1 SEC
-        "res/WindowsVirus.mp4" // LATE OF LITTLE
+        "res/Apple.mp4",
+        "res/Cs-Go.mp4",
+        "res/MinecraftLava.mp4",
+        "res/MinecraftSheep.mp4",
+        "res/MineSweeper.mp4",
+        "res/StopMotion.mp4",
+        "res/WindowsVirus.mp4"
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
