@@ -21,19 +21,23 @@ void TerminalThreads::productStrImg() {
     cv::Mat imgOrglBA;
     std::vector<cv::Mat> imgButBAList = std::vector<cv::Mat>(BadApple::nbVideo);
     while (true) {
-        startProductStrImg();
-
-        if (!BadApple::updateStrImg(imgOrglBA, imgButBAList, strImgBuffer[iProd])) {
+        if (!BadApple::updateImgs(imgOrglBA, imgButBAList)) {
             videoEnded = true;
             break;
         }
+
+        startProductStrImg();
+
+        BadApple::updateStrImg(imgOrglBA, strImgBuffer[iProd]);
 
         endProductStrImg();
     }
 }
 
 void TerminalThreads::consumeStrImg() {
-    while (nbReady > 0 || !videoEnded) {
+    while (true) {
+        if(nbReady == 0 && videoEnded) break;
+
         startConsumeStrImg();
 
         BadApple::displayStrImg(strImgBuffer[iCons]);
@@ -47,6 +51,7 @@ void TerminalThreads::startProductStrImg() {
     std::unique_lock<std::mutex> lock(mtx);
     while (nbReady >= MAX_BUFFER_SIZE) {
         condProd.wait(lock);
+        nbReady = nbReady; // To Brain CLion :/
     }
     mtx.unlock();
 }
@@ -63,6 +68,7 @@ void TerminalThreads::startConsumeStrImg() {
     std::unique_lock<std::mutex> lock(mtx);
     while (nbReady < 1) {
         condCons.wait(lock);
+        nbReady = nbReady; // To Brain CLion :/
     }
     mtx.unlock();
 }

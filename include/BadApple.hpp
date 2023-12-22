@@ -7,23 +7,47 @@
 
 #include <string>
 #include <opencv2/opencv.hpp>
+#include "Utils.hpp"
+
+#define SMALLEST_RECT_W 1
+#define SMALLEST_RECT_H 1
 
 class BadApple {
 
 public:
     static cv::VideoCapture orglBA;
     static std::vector<cv::VideoCapture> butBAList;
-    static size_t nbVideo;
+    static int nbVideo;
 
     static void initBadApple();
 
-    static bool updateStrImg(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList,
-                             std::string &targetStrImg);
+    static bool updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList);
+
+    static void updateStrImg(cv::Mat &imgOrglBA, std::string &targetStrImg);
 
     static void displayStrImg(std::string &strImg);
+
+    static void updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix);
+
+    static void addImgToTargetImg(Rectangle &rect, cv::Mat &targetImg,
+                                  std::vector<cv::Mat> &imgButBAList,
+                                  int *rdIndexArray, int *rdI);
+
+    static void updateTargetImgBR(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+                            int *rdIndexArray, cv::Mat &targetImg);
+
+    static void iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
+                          int *rdIndexArray, cv::Mat &targetImg, int *rdI);
+
+    static void updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+                                  int *rdIndexArray, cv::Mat &targetImg);
+
+    static void updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+                            int *rdIndexArray, cv::Mat &targetImg,
+                            cv::VideoWriter &video, bool quadTree);
 
     static int getBAWidthWithHeight(int h);
 
 };
 
-#endif //BADAPPLE_BADAPPLE_HPP
+#endif
