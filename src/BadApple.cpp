@@ -9,15 +9,24 @@ cv::VideoCapture BadApple::orglBA;
 std::vector<cv::VideoCapture> BadApple::butBAList = {};
 int BadApple::nbVideo = 0;
 
+int BadApple::currFrame = 0;
+
 void BadApple::initBadApple() {
     BadApple::orglBA = cv::VideoCapture(Utils::orglBAPath);
+    Utils::myAssert(BadApple::orglBA.isOpened(), "Failed to open video.");
 
-    for (const std::string &butBAPath: Utils::butBAPaths) {
-        cv::VideoCapture butBA = cv::VideoCapture(butBAPath);
-        BadApple::butBAList.push_back(butBA);
+    BadApple::nbVideo = (int) Utils::butBAPaths.size();
+    cv::Mat tmpImg;
+    for (int i = 0; i < BadApple::nbVideo; i++) {
+        cv::VideoCapture butBA = cv::VideoCapture(Utils::butBAPaths[i].path);
         Utils::myAssert(butBA.isOpened(), "Failed to open video.");
+        BadApple::butBAList.push_back(butBA);
+        if (Utils::butBAPaths[i].delay < 0) {
+            for (int j = 0; j < -Utils::butBAPaths[i].delay; j++) {
+                butBA >> tmpImg;
+            }
+        }
     }
-    nbVideo = (int) BadApple::butBAList.size();
 }
 
 bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList) {
@@ -26,8 +35,11 @@ bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList
     if (imgOrglBA.empty()) return false;
 
     for (int i = 0; i < BadApple::nbVideo; i++) {
+        if (Utils::butBAPaths[i].delay > BadApple::currFrame) continue;
         BadApple::butBAList[i] >> imgButBAList[i];
     }
+
+    BadApple::currFrame++;
 
     return true;
 }
@@ -71,10 +83,13 @@ void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
 void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                  std::vector<cv::Mat> &imgButBAList,
                                  int *rdIndexArray, int *rdI) {
-    while (imgButBAList[rdIndexArray[*rdI]].empty()) {
+    while (imgButBAList[rdIndexArray[*rdI]].empty()
+           || Utils::butBAPaths[rdIndexArray[*rdI]].delay > BadApple::currFrame) {
+        if (imgButBAList.size() == 1) goto white; // For Debug a Single Video
         rdIndexArray[*rdI] = rand() % BadApple::nbVideo;
     }
     if (rect->w < SMALLEST_RECT_W || rect->h < SMALLEST_RECT_H) {
+        white: // For Debug a Single Video
         targetImg(cv::Rect(rect->x, rect->y,
                            rect->w, rect->h))
                 = cv::Scalar(UCHAR_MAX, UCHAR_MAX, UCHAR_MAX);

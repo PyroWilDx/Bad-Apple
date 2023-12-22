@@ -21,6 +21,11 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
+typedef struct VideoInfo {
+    std::string path;
+    int delay;
+} VideoInfo;
+
 typedef struct Rectangle {
     int x;
     int y;
@@ -44,7 +49,7 @@ public:
     static const char *orglBAPath;
     static char displayC;
 
-    static const std::vector<std::string> butBAPaths;
+    static const std::vector<VideoInfo> butBAPaths;
 
     static void myAssert(bool cond, const char *errMsg);
 

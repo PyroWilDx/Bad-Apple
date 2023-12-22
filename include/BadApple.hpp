@@ -19,6 +19,8 @@ public:
     static std::vector<cv::VideoCapture> butBAList;
     static int nbVideo;
 
+    static int currFrame;
+
     static void initBadApple();
 
     static bool updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList);

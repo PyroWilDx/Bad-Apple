@@ -11,14 +11,18 @@ cv::Size Utils::targetSize = cv::Size(0, 0);
 const char *Utils::orglBAPath = "res/BadApple.mp4";
 char Utils::displayC;
 
-const std::vector<std::string> Utils::butBAPaths = {
-        "res/Apple.mp4",
-        "res/Cs-Go.mp4",
-        "res/MinecraftLava.mp4",
-        "res/MinecraftSheep.mp4",
-        "res/MineSweeper.mp4",
-        "res/StopMotion.mp4",
-        "res/WindowsVirus.mp4"
+const std::vector<VideoInfo> Utils::butBAPaths = {
+//        {"res/AiGenerated.mp4", 0},
+//        {"res/Apple.mp4", 0},
+//        {"res/C++.mp4", 0},
+        {"res/Chess.mp4", 4},
+//        {"res/Cs-Go.mp4", 0},
+//        {"res/MinecraftLava.mp4", 0},
+//        {"res/MinecraftSheep.mp4", 0},
+//        {"res/MineSweeper.mp4", 0},
+//        {"res/StopMotion.mp4", 0},
+//        {"res/TerminalVLC.mp4", 0},
+//        {"res/WindowsVirus.mp4", 0},
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
