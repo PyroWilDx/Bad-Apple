@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
             cv::imshow(wTarget, targetImg);
 
             rdUpdateCpt++;
-            if (rdUpdateCpt == BA_FPS) {
+            if (rdUpdateCpt == R_UPDATE_MAX) {
                 Utils::fillArrayRandom(rdIndexArray, R_LIST_SIZE, BadApple::nbVideo);
                 rdUpdateCpt = 0;
             }
@@ -120,11 +120,19 @@ int main(int argc, char *argv[]) {
 
         if (terminalMode) {
             if (cv::waitKey(30) == 27) {
+                music.pause();
+                while (true) {
+                    if (cv::waitKey(30) == 27) break;
+                }
+                music.play();
+            }
+        } else {
+            if (cv::waitKey(WAIT_TIME) == 27) {
                 while (true) {
                     if (cv::waitKey(30) == 27) break;
                 }
             }
-        } else cv::waitKey(WAIT_TIME);
+        }
     }
 
     if (generateVideo) {

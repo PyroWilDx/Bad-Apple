@@ -68,20 +68,20 @@ void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
     }
 }
 
-void BadApple::addImgToTargetImg(Rectangle &rect, cv::Mat &targetImg,
+void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                  std::vector<cv::Mat> &imgButBAList,
                                  int *rdIndexArray, int *rdI) {
     while (imgButBAList[rdIndexArray[*rdI]].empty()) {
         rdIndexArray[*rdI] = rand() % BadApple::nbVideo;
     }
-    if (rect.w < SMALLEST_RECT_W || rect.h < SMALLEST_RECT_H) {
-        targetImg(cv::Rect(rect.x, rect.y,
-                           rect.w, rect.h))
+    if (rect->w < SMALLEST_RECT_W || rect->h < SMALLEST_RECT_H) {
+        targetImg(cv::Rect(rect->x, rect->y,
+                           rect->w, rect->h))
                 = cv::Scalar(UCHAR_MAX, UCHAR_MAX, UCHAR_MAX);
     } else {
         Utils::addImgToImg(targetImg, imgButBAList[rdIndexArray[*rdI]],
-                           rect.x, rect.y,
-                           rect.w, rect.h);
+                           rect->x, rect->y,
+                           rect->w, rect->h);
         *rdI = *rdI + 1;
     }
 }
@@ -98,44 +98,37 @@ void BadApple::updateTargetImgBR(bool **imgMatrix, std::vector<cv::Mat> &imgButB
 
         Utils::swapInt(&biggestRect.x, &biggestRect.y);
 
-        addImgToTargetImg(biggestRect, targetImg, imgButBAList,
+        addImgToTargetImg(&biggestRect, targetImg, imgButBAList,
                           rdIndexArray, &rdI);
     }
 }
 
 void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
-                         int *rdIndexArray, cv::Mat &targetImg, int *rdI) {
+                         std::vector<Rectangle *> &rects) {
     if (quadTree->value) {
-        addImgToTargetImg(quadTree->rect, targetImg, imgButBAList,
-                          rdIndexArray, rdI);
+        rects.push_back(&quadTree->rect);
         return;
     }
-    if (quadTree->topLeft != nullptr) {
-        iterateQT(quadTree->topLeft, imgButBAList,
-                  rdIndexArray, targetImg, rdI);
-    }
-    if (quadTree->topRight != nullptr) {
-        iterateQT(quadTree->topRight, imgButBAList,
-                  rdIndexArray, targetImg, rdI);
-    }
-    if (quadTree->botLeft != nullptr) {
-        iterateQT(quadTree->botLeft, imgButBAList,
-                  rdIndexArray, targetImg, rdI);
-    }
-    if (quadTree->botRight != nullptr) {
-        iterateQT(quadTree->botRight, imgButBAList,
-                  rdIndexArray, targetImg, rdI);
-    }
+    if (quadTree->topLeft != nullptr) iterateQT(quadTree->topLeft, imgButBAList, rects);
+    if (quadTree->topRight != nullptr) iterateQT(quadTree->topRight, imgButBAList, rects);
+    if (quadTree->botLeft != nullptr) iterateQT(quadTree->botLeft, imgButBAList, rects);
+    if (quadTree->botRight != nullptr) iterateQT(quadTree->botRight, imgButBAList, rects);
 }
 
 void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                  int *rdIndexArray, cv::Mat &targetImg) {
     QuadTree *quadTree = Utils::getQuadTreeFromMatrix(imgMatrix,
                                                       BA_WIDTH, BA_HEIGHT);
+    
+    std::vector<Rectangle *> rects = {};
+    iterateQT(quadTree, imgButBAList, rects);
+    std::sort(rects.begin(), rects.end(), &Utils::compareRectangle);
 
     int rdI = 0;
-    iterateQT(quadTree, imgButBAList, rdIndexArray, targetImg, &rdI);
-
+    for (Rectangle *rect: rects) {
+        addImgToTargetImg(rect, targetImg, imgButBAList,
+                          rdIndexArray, &rdI);
+    }
     Utils::destroyQuadTree(quadTree);
 }
 

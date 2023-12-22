@@ -53,6 +53,27 @@ bool Utils::isRectangle(bool **matrix, int x, int y, int w, int h) {
     return true;
 }
 
+bool Utils::isRectangleSameValue(bool **matrix, int x, int y, int w, int h) {
+    bool value = matrix[y][x];
+    for (int i = x; i < x + w; i++) {
+        for (int j = y; j < y + h; j++) {
+            if (matrix[j][i] != value) return false;
+        }
+    }
+    return true;
+}
+
+bool Utils::compareRectangle(Rectangle *r1, Rectangle *r2) {
+    int r1Size = r1->w * r1->h;
+    int r2Size = r2->w * r2->h;
+    if (r1Size == r2Size) {
+        int r1Pos = r1->x + r1->y;
+        int r2Pos = r2->x + r2->y;
+        return (r1Pos < r2Pos);
+    }
+    return (r1Size > r2Size);
+}
+
 Rectangle Utils::popBiggestRectangleInMatrix(bool **matrix, int w, int h) {
     Rectangle biggestRect = {0, 0, 0, 0};
     for (int i = 0; i < h; i++) {
@@ -75,16 +96,6 @@ Rectangle Utils::popBiggestRectangleInMatrix(bool **matrix, int w, int h) {
         }
     }
     return biggestRect;
-}
-
-bool Utils::isRectangleSameValue(bool **matrix, int x, int y, int w, int h) {
-    bool value = matrix[y][x];
-    for (int i = x; i < x + w; i++) {
-        for (int j = y; j < y + h; j++) {
-            if (matrix[j][i] != value) return false;
-        }
-    }
-    return true;
 }
 
 void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,

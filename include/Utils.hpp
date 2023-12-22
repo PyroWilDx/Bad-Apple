@@ -5,13 +5,14 @@
 #ifndef BADAPPLE_UTILS_HPP
 #define BADAPPLE_UTILS_HPP
 
-#define WAIT_TIME 1
+#define WAIT_TIME 22
 
 #define BA_WIDTH 480
 #define BA_HEIGHT 360
 #define BA_FPS 30
 
 #define R_LIST_SIZE 8192
+#define R_UPDATE_MAX (1 * BA_FPS)
 
 #define QT_PRECISION_W 1
 #define QT_PRECISION_H 1
@@ -53,9 +54,11 @@ public:
 
     static bool isRectangle(bool **matrix, int x, int y, int w, int h);
 
-    static Rectangle popBiggestRectangleInMatrix(bool **matrix, int w, int h);
-
     static bool isRectangleSameValue(bool **matrix, int x, int y, int w, int h);
+
+    static bool compareRectangle(Rectangle *r1, Rectangle *r2);
+
+    static Rectangle popBiggestRectangleInMatrix(bool **matrix, int w, int h);
 
     static void buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
                                            int x, int y, int w, int h);

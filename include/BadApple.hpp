@@ -29,7 +29,7 @@ public:
 
     static void updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix);
 
-    static void addImgToTargetImg(Rectangle &rect, cv::Mat &targetImg,
+    static void addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                   std::vector<cv::Mat> &imgButBAList,
                                   int *rdIndexArray, int *rdI);
 
@@ -37,7 +37,7 @@ public:
                             int *rdIndexArray, cv::Mat &targetImg);
 
     static void iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
-                          int *rdIndexArray, cv::Mat &targetImg, int *rdI);
+                          std::vector<Rectangle *> &rects);
 
     static void updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                   int *rdIndexArray, cv::Mat &targetImg);
