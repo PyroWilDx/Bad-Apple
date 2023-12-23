@@ -4,25 +4,51 @@
 
 #include <iostream>
 #include <cassert>
+#include <random>
 #include "Utils.hpp"
 #include "BadApple.hpp"
+
+std::random_device rd;
+std::mt19937 gen(rd());
 
 cv::Size Utils::targetSize = cv::Size(0, 0);
 const char *Utils::orglBAPath = "res/BadApple.mp4";
 char Utils::displayC;
 
 const std::vector<VideoInfo> Utils::butBAPaths = {
-//        {"res/AiGenerated.mp4", 0},
-//        {"res/Apple.mp4", 0},
-//        {"res/C++.mp4", 0},
+        {"res/AiGenerated.mp4", 0},
+        {"res/Apple.mp4", 0},
+        {"res/BlackMIDI.mp4", 0},
+        {"res/C++.mp4", 0},
+        {"res/C1-65A.mp4", 46},
         {"res/Chess.mp4", 4},
-//        {"res/Cs-Go.mp4", 0},
-//        {"res/MinecraftLava.mp4", 0},
-//        {"res/MinecraftSheep.mp4", 0},
-//        {"res/MineSweeper.mp4", 0},
-//        {"res/StopMotion.mp4", 0},
-//        {"res/TerminalVLC.mp4", 0},
-//        {"res/WindowsVirus.mp4", 0},
+        {"res/ConwaysLifeGame.mp4", -553},
+        {"res/Cs-Go.mp4", 0},
+        {"res/Flick.mp4", 8},
+        {"res/Gameboy.mp4", -20},
+        {"res/MiddleEurope.mp4", 20},
+        {"res/MinecraftApple.mp4", -2},
+        {"res/MinecraftChiseledBookshelf.mp4", 16},
+        {"res/MinecraftCopper.mp4", 162},
+        {"res/MinecraftLava.mp4", 0},
+        {"res/MinecraftPinkPetal.mp4", 2},
+        {"res/MinecraftSheep.mp4", 0},
+        {"res/MineSweeper.mp4", 0},
+        {"res/MolecularDynamicsSimulation.mp4", -30},
+        {"res/PauseCantSee.mp4", 0},
+        {"res/PeoplePlayground.mp4", 46},
+        {"res/PrimeNumber.mp4", 0},
+        {"res/QrCode.mp4", 0},
+        {"res/RPlace.mp4", 26},
+        {"res/SingleLine.mp4", 0},
+        {"res/StopMotion.mp4", 0},
+        {"res/StraightLines.mp4", 0},
+        {"res/TerminalVLC.mp4", 0},
+        {"res/Terraria.mp4", -1602},
+        {"res/VolumeSlice.mp4", 0},
+        {"res/WindowsTaskManager.mp4", 0},
+        {"res/WindowsVirus.mp4", 0},
+        {"res/YoutubeHomepage.mp4", 791},
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
@@ -32,15 +58,20 @@ void Utils::myAssert(bool cond, const char *errMsg) {
     }
 }
 
+int Utils::getRandomInt(int maxExcluded) {
+    std::uniform_int_distribution<> randInt(0, maxExcluded - 1);
+    return randInt(gen);
+}
+
 void Utils::swapInt(int *a, int *b) {
     int t = *b;
     *b = *a;
     *a = t;
 }
 
-void Utils::fillArrayRandom(int *array, int n, int max) {
+void Utils::fillArrayRandom(int *array, int n, int maxExcluded) {
     for (int i = 0; i < n; i++) {
-        array[i] = rand() % max;
+        array[i] = getRandomInt(maxExcluded);
     }
 }
 

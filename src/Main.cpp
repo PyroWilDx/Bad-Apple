@@ -12,7 +12,7 @@
 // ./BadApple 220 77 X
 int main(int argc, char *argv[]) {
     time_t currTime;
-    srand(time(&currTime));
+    time(&currTime);
 
     std::string path = std::filesystem::current_path().string();
     std::filesystem::current_path(path + "/..");
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
         generatedVideo = cv::VideoWriter(
                 vidName,
                 cv::VideoWriter::fourcc('X', 'V', 'I', 'D'),
-                BA_FPS, cv::Size(BA_WIDTH, BA_HEIGHT)
+                BA_FPS, cv::Size(TARGET_WIDTH, TARGET_HEIGHT)
         );
     }
 
@@ -78,15 +78,16 @@ int main(int argc, char *argv[]) {
     std::string strImg;
 
     bool **imgMatrix;
-    int rdIndexArray[R_LIST_SIZE];
+    int *rdIndexArray;
     int rdUpdateCpt = 0;
     cv::Mat targetImg;
 
     if (generateVideo) {
-        imgMatrix = (bool **) malloc(sizeof(bool *) * BA_HEIGHT);
-        for (int i = 0; i < BA_HEIGHT; i++) {
-            imgMatrix[i] = (bool *) malloc(sizeof(bool) * BA_WIDTH);
+        imgMatrix = (bool **) malloc(sizeof(bool *) * TARGET_HEIGHT);
+        for (int i = 0; i < TARGET_HEIGHT; i++) {
+            imgMatrix[i] = (bool *) malloc(sizeof(bool) * TARGET_WIDTH);
         }
+        rdIndexArray = (int *) malloc(sizeof(int) * R_LIST_SIZE);
         Utils::fillArrayRandom(rdIndexArray, R_LIST_SIZE, BadApple::nbVideo);
     }
 
@@ -103,7 +104,7 @@ int main(int argc, char *argv[]) {
         if (generateVideo) {
             BadApple::updateMatrix(imgOrglBA, imgMatrix);
 
-            targetImg = cv::Mat::zeros(BA_HEIGHT, BA_WIDTH, CV_8UC3);
+            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
 
             BadApple::updateVideo(imgMatrix, imgButBAList,
                                   rdIndexArray, targetImg,
@@ -137,10 +138,11 @@ int main(int argc, char *argv[]) {
 
     if (generateVideo) {
         generatedVideo.release();
-        for (int i = 0; i < BA_HEIGHT; i++) {
+        for (int i = 0; i < TARGET_HEIGHT; i++) {
             free(imgMatrix[i]);
         }
         free(imgMatrix);
+        free(rdIndexArray);
     }
 
     return EXIT_SUCCESS;

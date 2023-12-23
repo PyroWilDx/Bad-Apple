@@ -5,13 +5,17 @@
 #ifndef BADAPPLE_UTILS_HPP
 #define BADAPPLE_UTILS_HPP
 
-#define WAIT_TIME 22
+#define WAIT_TIME 1
 
-#define BA_WIDTH 480
-#define BA_HEIGHT 360
+//#define TARGET_WIDTH 480
+//#define TARGET_HEIGHT 360
+//#define TARGET_WIDTH 960
+//#define TARGET_HEIGHT 720
+#define TARGET_WIDTH 1440
+#define TARGET_HEIGHT 1080
 #define BA_FPS 30
 
-#define R_LIST_SIZE 8192
+#define R_LIST_SIZE 32768
 #define R_UPDATE_MAX (1 * BA_FPS)
 
 #define QT_PRECISION_W 1
@@ -53,9 +57,11 @@ public:
 
     static void myAssert(bool cond, const char *errMsg);
 
+    static int getRandomInt(int maxExcluded);
+
     static void swapInt(int *a, int *b);
 
-    static void fillArrayRandom(int array[], int n, int max);
+    static void fillArrayRandom(int array[], int n, int maxExcluded);
 
     static bool isRectangle(bool **matrix, int x, int y, int w, int h);
 

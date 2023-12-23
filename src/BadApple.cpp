@@ -69,10 +69,10 @@ void BadApple::displayStrImg(std::string &strImg) {
 void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
     cv::Mat imgGrayOrglBA;
     cv::cvtColor(imgOrglBA, imgGrayOrglBA, cv::COLOR_BGR2GRAY);
-    cv::resize(imgGrayOrglBA, imgGrayOrglBA, cv::Size(BA_WIDTH, BA_HEIGHT));
-    cv::Mat targetImg = cv::Mat::zeros(BA_HEIGHT, BA_WIDTH, CV_8UC3);
-    for (int i = 0; i < BA_HEIGHT; i++) {
-        for (int j = 0; j < BA_WIDTH; j++) {
+    cv::resize(imgGrayOrglBA, imgGrayOrglBA, cv::Size(TARGET_WIDTH, TARGET_HEIGHT));
+    cv::Mat targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
+    for (int i = 0; i < TARGET_HEIGHT; i++) {
+        for (int j = 0; j < TARGET_WIDTH; j++) {
             uint8_t intensity = imgGrayOrglBA.at<uchar>(i, j);
             if (intensity > 32) imgMatrix[i][j] = true;
             else imgMatrix[i][j] = false;
@@ -86,7 +86,7 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
     while (imgButBAList[rdIndexArray[*rdI]].empty()
            || Utils::butBAPaths[rdIndexArray[*rdI]].delay > BadApple::currFrame) {
         if (imgButBAList.size() == 1) goto white; // For Debug a Single Video
-        rdIndexArray[*rdI] = rand() % BadApple::nbVideo;
+        rdIndexArray[*rdI] = Utils::getRandomInt(BadApple::nbVideo);
     }
     if (rect->w < SMALLEST_RECT_W || rect->h < SMALLEST_RECT_H) {
         white: // For Debug a Single Video
@@ -107,7 +107,7 @@ void BadApple::updateTargetImgBR(bool **imgMatrix, std::vector<cv::Mat> &imgButB
     while (true) {
         Rectangle biggestRect = Utils::popBiggestRectangleInMatrix(
                 imgMatrix,
-                BA_WIDTH, BA_HEIGHT
+                TARGET_WIDTH, TARGET_HEIGHT
         );
         if (biggestRect.h == 0) break;
 
@@ -133,7 +133,7 @@ void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
 void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                  int *rdIndexArray, cv::Mat &targetImg) {
     QuadTree *quadTree = Utils::getQuadTreeFromMatrix(imgMatrix,
-                                                      BA_WIDTH, BA_HEIGHT);
+                                                      TARGET_WIDTH, TARGET_HEIGHT);
 
     std::vector<Rectangle *> rects = {};
     iterateQT(quadTree, imgButBAList, rects);
@@ -162,5 +162,5 @@ void BadApple::updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
 }
 
 int BadApple::getBAWidthWithHeight(int h) {
-    return (int) lround(((double) h * ((double) BA_WIDTH / (double) BA_HEIGHT)));
+    return (int) lround(((double) h * ((double) TARGET_WIDTH / (double) TARGET_HEIGHT)));
 }
