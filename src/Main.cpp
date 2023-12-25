@@ -6,7 +6,7 @@
 #include <opencv2/opencv.hpp>
 #include <SFML/Audio.hpp>
 #include "Utils.hpp"
-#include "TerminalThreads.hpp"
+#include "Threads.hpp"
 #include "BadApple.hpp"
 
 // ./BadApple 220 77 X
@@ -45,17 +45,19 @@ int main(int argc, char *argv[]) {
     cv::VideoWriter generatedVideo;
     if (generateVideo) {
         char vidName[256];
-        sprintf(vidName, "res/%ld.avi", currTime);
+        sprintf(vidName, "output/%ld.avi", currTime);
         generatedVideo = cv::VideoWriter(
                 vidName,
                 cv::VideoWriter::fourcc('X', 'V', 'I', 'D'),
-                BA_FPS, cv::Size(TARGET_WIDTH, TARGET_HEIGHT)
+                BA_FPS, cv::Size(TARGET_WIDTH, TARGET_HEIGHT),
+                true
         );
+        std::cout << "Filename : " << vidName << std::endl;
     }
 
     if (multiThreading) {
-        std::thread productThread(TerminalThreads::productStrImg);
-        std::thread consumeThread(TerminalThreads::consumeStrImg);
+        std::thread productThread(Threads::productStrImg);
+        std::thread consumeThread(Threads::consumeStrImg);
 
         consumeThread.join();
 
@@ -94,6 +96,8 @@ int main(int argc, char *argv[]) {
     while (true) {
         if (!BadApple::updateImgs(imgOrglBA, imgButBAList)) break;
 
+        std::cout << "Frame : " << BadApple::currFrame << std::endl;
+
         cv::imshow(wOrgl, imgOrglBA);
 
         if (terminalMode) {
@@ -105,6 +109,7 @@ int main(int argc, char *argv[]) {
             BadApple::updateMatrix(imgOrglBA, imgMatrix);
 
             targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
+//            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC4);
 
             BadApple::updateVideo(imgMatrix, imgButBAList,
                                   rdIndexArray, targetImg,
@@ -112,9 +117,21 @@ int main(int argc, char *argv[]) {
 
             cv::imshow(wTarget, targetImg);
 
+//            cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg);
+
             rdUpdateCpt++;
             if (rdUpdateCpt == R_UPDATE_MAX) {
                 Utils::fillArrayRandom(rdIndexArray, R_LIST_SIZE, BadApple::nbVideo);
+                if (BadApple::currFrame >= 1680 && BadApple::currFrame < 1740) {
+                    int stopMotionI = 0;
+                    int onlyMotionI = 0;
+                    for (int i = 0; i < BadApple::nbVideo; i++) {
+                        if (Utils::butBAPaths[i].path == "res/StopMotion.mp4") stopMotionI = i;
+                        if (Utils::butBAPaths[i].path == "res/OnlyMotion.mp4") onlyMotionI = i;
+                    }
+                    rdIndexArray[0] = stopMotionI;
+                    rdIndexArray[1] = onlyMotionI;
+                }
                 rdUpdateCpt = 0;
             }
         }

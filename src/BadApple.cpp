@@ -10,6 +10,7 @@ std::vector<cv::VideoCapture> BadApple::butBAList = {};
 int BadApple::nbVideo = 0;
 
 int BadApple::currFrame = 0;
+cv::Mat BadApple::imgGrayOrglBA;
 
 void BadApple::initBadApple() {
     BadApple::orglBA = cv::VideoCapture(Utils::orglBAPath);
@@ -45,14 +46,13 @@ bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList
 }
 
 void BadApple::updateStrImg(cv::Mat &imgOrglBA, std::string &targetStrImg) {
-    cv::Mat imgGrayOrglBA;
-    cv::cvtColor(imgOrglBA, imgGrayOrglBA, cv::COLOR_BGR2GRAY);
-    cv::resize(imgGrayOrglBA, imgGrayOrglBA, Utils::targetSize);
-    uint8_t intensityMatrix[imgGrayOrglBA.rows][imgGrayOrglBA.cols];
+    cv::cvtColor(imgOrglBA, BadApple::imgGrayOrglBA, cv::COLOR_BGR2GRAY);
+    cv::resize(BadApple::imgGrayOrglBA, BadApple::imgGrayOrglBA, Utils::targetSize);
+    uint8_t intensityMatrix[BadApple::imgGrayOrglBA.rows][BadApple::imgGrayOrglBA.cols];
     std::string strImg;
-    for (int i = 0; i < imgGrayOrglBA.rows; i++) {
-        for (int j = 0; j < imgGrayOrglBA.cols; j++) {
-            uint8_t intensity = imgGrayOrglBA.at<uchar>(i, j);
+    for (int i = 0; i < BadApple::imgGrayOrglBA.rows; i++) {
+        for (int j = 0; j < BadApple::imgGrayOrglBA.cols; j++) {
+            uint8_t intensity = BadApple::imgGrayOrglBA.at<uchar>(i, j);
             intensityMatrix[i][j] = intensity;
             if (intensity > 32) targetStrImg += Utils::displayC;
             else targetStrImg += " ";
@@ -67,13 +67,11 @@ void BadApple::displayStrImg(std::string &strImg) {
 }
 
 void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
-    cv::Mat imgGrayOrglBA;
-    cv::cvtColor(imgOrglBA, imgGrayOrglBA, cv::COLOR_BGR2GRAY);
-    cv::resize(imgGrayOrglBA, imgGrayOrglBA, cv::Size(TARGET_WIDTH, TARGET_HEIGHT));
-    cv::Mat targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
+    cv::cvtColor(imgOrglBA, BadApple::imgGrayOrglBA, cv::COLOR_BGR2GRAY);
+    cv::resize(BadApple::imgGrayOrglBA, BadApple::imgGrayOrglBA, cv::Size(TARGET_WIDTH, TARGET_HEIGHT));
     for (int i = 0; i < TARGET_HEIGHT; i++) {
         for (int j = 0; j < TARGET_WIDTH; j++) {
-            uint8_t intensity = imgGrayOrglBA.at<uchar>(i, j);
+            uint8_t intensity = BadApple::imgGrayOrglBA.at<uchar>(i, j);
             if (intensity > 32) imgMatrix[i][j] = true;
             else imgMatrix[i][j] = false;
         }
@@ -158,6 +156,8 @@ void BadApple::updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                     rdIndexArray, targetImg);
     }
 
+    cv::Mat videoImg;
+//    cv::cvtColor(targetImg, videoImg, cv::COLOR_BGRA2BGR);
     video.write(targetImg);
 }
 

@@ -1,0 +1,65 @@
+Command :
+#
+ffmpeg -i <.avi> -i <.ogg> -c copy -map 0 -map 1 -shortest <.mp4>
+
+Add Border To Youtube Thumbnail.
+
+Title :
+#
+Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos [4K]
+
+Description :
+#
+Original "Bad Apple!!" Video : https://www.youtube.com/watch?v=FtutLA63Cp8
+
+Used Videos :
+• "Bad Apple!! but It's Actually Playable" - https://www.youtube.com/watch?v=41xx6qnSpS0
+• "Bad Apple!! but It's AI-Generated Paintings" - https://www.youtube.com/watch?v=E58aMjthQCM
+• "Bad Apple!! but AI-Generated" - https://www.youtube.com/watch?v=wXR-JTF4COU
+• "Bad Apple!! but Played on Apples" - https://www.youtube.com/watch?v=ywy-OwHejfs
+• "Bad Apple!! but It's a Music Video as MIDI" - https://www.youtube.com/watch?v=SjvomcZKbk0
+• "Bad Apple!! but In The Biggest Pain of C++" - https://www.youtube.com/watch?v=Ome1vIXt4xk
+• "Bad Apple!! but On C1-65A" - https://www.youtube.com/watch?v=7pzvEouWino
+• "Bad Apple!! but Played in Chess" - https://www.youtube.com/watch?v=7_0IQfzoEPo
+• "Bad Apple!! but Played in Conway's Game of Life" - https://www.youtube.com/watch?v=KLLYet7qHbU
+• "Bad Apple!! but It's Counter-Strike Bullet Holes" - https://www.youtube.com/watch?v=J1AraXmlYqM
+• "Bad Apple!! but In Desmos" - https://www.youtube.com/watch?v=5I4qIUC0Yh4
+• "Bad Apple!! but It's Discord Messages" - https://www.youtube.com/watch?v=PLP9c0Z4Q3Y
+• "Bad Apple!!" - https://www.youtube.com/watch?v=ko0z3SfXpm8
+• "Bad Apple!! but Rendered as Fourier Series" - https://www.youtube.com/watch?v=GGPjQGOCbTY
+• "Bad Apple!! but Rendered as Short Time Fourier Transform" - https://www.youtube.com/watch?v=VkdBqXakTS8
+• "Bad Apple!! but On 8-Bit Gameboy" - https://www.youtube.com/watch?v=gy3NCr4rX-Y
+• "Bad Apple!! but 放電演奏xレーザー" - https://www.youtube.com/watch?v=2P8Hg6LsPn0
+• "Bad Apple!! but Touhou LaserShow" - https://www.youtube.com/watch?v=UkJ_9bBn-Hc
+• "Bad Apple!! but Tesla Coil & LaserShow" - https://www.youtube.com/watch?v=nNC6aTSKiwk
+• "Bad Apple!! but Played on Coins in Super Mario Bros Wonder" - https://www.youtube.com/watch?v=B1kfVGkBfvY
+• "Bad Apple!! but Played on Middle Europe" - https://www.youtube.com/watch?v=mpGjNrUt8cM
+• "Bad Apple!! but On Chiseled Bookshelf" - https://www.youtube.com/watch?v=v6e8hrWweEY
+• "Bad Apple!! but On New Copper Bulbs" - https://www.youtube.com/watch?v=9jW6WyRoDAQ
+• "Bad Apple!! but On Fire" - https://www.youtube.com/watch?v=PrCNnjMoSE0
+• "Bad Apple!! but With Pink Petals in Minecraft" - https://www.youtube.com/watch?v=OxxfcwNet34
+• "Bad Apple!! but Played on Minecraft Sheeps" - https://www.youtube.com/watch?v=tO6sfku_1b8
+• "Bad Apple!! but Played Using Iron Trapdoors in Minecraft" - https://www.youtube.com/watch?v=Yl47RoFQas8
+• "Bad Apple!! but It's MineSweeper" - https://www.youtube.com/watch?v=jGuznuVWM-0
+• "Bad Apple!! but на Электроника МК-90" - https://www.youtube.com/watch?v=1qESkvDjKXA
+• "Bad Apple!! but It's Molecular Dynamics Simulation" - https://www.youtube.com/watch?v=7OUZVY_Iy2w
+• "Bad Apple!! but It's Only The Motion" - https://www.youtube.com/watch?v=iuLY_cLhiZU
+• "Bad Apple!! but On Oscilloscope" - https://www.youtube.com/watch?v=NuCjfBnVpbA
+• "Bad Apple!! but On 8-Bit NES" - https://www.youtube.com/watch?v=cuMkI6cDKMs
+• "Bad Apple!! but In People Playground" - https://www.youtube.com/watch?v=KFzoTJxtwVo
+• "Bad Apple!! but Played Through a Phosphor Screen" - https://www.youtube.com/watch?v=6wG4tkYKoVo
+• "Bad Apple!! but Every Frame is a Prime Number" - https://www.youtube.com/watch?v=FeyYAExxmaY
+• "Bad Apple!! but Played With QR Code" - https://www.youtube.com/watch?v=tPYUdjptMpk
+• "Bad Apple!! but On r/Place" - https://www.youtube.com/watch?v=IKXDyKWXBhk
+• "Bad Apple!! but Played on Rocket League" - https://www.youtube.com/watch?v=98qxEe0-KaQ
+• "Bad Apple!! but Drawn Using a Single Line" - https://www.youtube.com/watch?v=RsJVCAMxdio
+• "Bad Apple!! but It's Stop Motion" - https://www.youtube.com/watch?v=240Vq6tIxio
+• "Bad Apple!! but With Only Straight Lines" - https://www.youtube.com/watch?v=Y-gFajE5UEM
+• "Bad Apple!! but On Linux Command Line" - https://www.youtube.com/watch?v=SLdLgYdNYWk
+• "Bad Apple!! but On Terraria" - https://www.youtube.com/watch?v=NUh4tqlkyWI
+• "Bad Apple!! but It's a Slice of Volume" - https://www.youtube.com/watch?v=HfMzrvXQJP8
+• "Bad Apple!! but Filled With Water" - https://www.youtube.com/watch?v=biRQzGgFUhM
+• "Bad Apple!! but It's ScreenSaver Style" - https://www.youtube.com/watch?v=so64S8XAySQ
+• "Bad Apple!! but On Windows 10 Task Manager" - https://www.youtube.com/watch?v=sBeI30ccb6g
+• "Bad Apple!! but It's a Windows Virus" - https://www.youtube.com/watch?v=EZpZwunMzuE
+• "Bad Apple!! but Played on The YouTube Homepage" - https://www.youtube.com/watch?v=fMXWmACfhmQ

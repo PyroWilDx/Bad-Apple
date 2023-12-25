@@ -20,6 +20,7 @@ public:
     static int nbVideo;
 
     static int currFrame;
+    static cv::Mat imgGrayOrglBA;
 
     static void initBadApple();
 

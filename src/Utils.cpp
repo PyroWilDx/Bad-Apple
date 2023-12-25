@@ -17,58 +17,58 @@ char Utils::displayC;
 
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
-        {"res/ActuallyPlayable.mp4", -96},
-        {"res/AiGenerated.mp4", 0},
-        {"res/AiGeneratedCharacters.mp4", 1},
-        {"res/Apple.mp4", 0},
-        {"res/BlackMIDI.mp4", 0},
-        {"res/C++.mp4", 0},
-        {"res/C1-65A.mp4", 46},
-        {"res/Chess.mp4", 4},
-        {"res/ConwaysLifeGame.mp4", -553},
-        {"res/Cs-Go.mp4", 0},
-        {"res/Desmos.mp4", 0},
-        {"res/Discord.mp4", -114},
-        {"res/Flick.mp4", 8},
-        {"res/FourierSeries.mp4", -772},
-        {"res/FourierTransform.mp4", -362},
-        {"res/Gameboy.mp4", -20},
-        {"res/Laser.mp4", -36},
-        {"res/LaserShow.mp4", -284},
-        {"res/LaserTeslaCoil.mp4", 10},
-        {"res/MarioCoins.mp4", -256},
-        {"res/MiddleEurope.mp4", 20},
-        {"res/MinecraftApple.mp4", -2},
-        {"res/MinecraftChiseledBookshelf.mp4", 16},
-        {"res/MinecraftCopper.mp4", 162},
-        {"res/MinecraftLava.mp4", 0},
-        {"res/MinecraftPinkPetal.mp4", 2},
-        {"res/MinecraftSheep.mp4", 0},
-        {"res/MinecraftTrapdoor.mp4", -479},
-        {"res/MineSweeper.mp4", 0},
-        {"res/MK-90.mp4", -262},
+        {"res/ActuallyPlayable.mp4",            -96},
+        {"res/AiGenerated.mp4",                 0},
+        {"res/AiGeneratedCharacters.mp4",       1},
+        {"res/Apple.mp4",                       0},
+        {"res/BlackMIDI.mp4",                   0},
+        {"res/C++.mp4",                         0},
+        {"res/C1-65A.mp4",                      46},
+        {"res/Chess.mp4",                       4},
+        {"res/ConwaysLifeGame.mp4",             -553},
+        {"res/Cs-Go.mp4",                       0},
+        {"res/Desmos.mp4",                      0},
+        {"res/Discord.mp4",                     -114},
+        {"res/Flick.mp4",                       8},
+        {"res/FourierSeries.mp4",               -772},
+        {"res/FourierTransform.mp4",            -362},
+        {"res/Gameboy.mp4",                     -20},
+        {"res/Laser.mp4",                       -36},
+        {"res/LaserShow.mp4",                   -284},
+        {"res/LaserTeslaCoil.mp4",              10},
+        {"res/MarioCoins.mp4",                  -256},
+        {"res/MiddleEurope.mp4",                20},
+//        {"res/MinecraftApple.mp4", -2},
+        {"res/MinecraftChiseledBookshelf.mp4",  16},
+        {"res/MinecraftCopper.mp4",             162},
+        {"res/MinecraftLava.mp4",               0},
+        {"res/MinecraftPinkPetal.mp4",          2},
+        {"res/MinecraftSheep.mp4",              0},
+        {"res/MinecraftTrapdoor.mp4",           -479},
+        {"res/MineSweeper.mp4",                 0},
+        {"res/MK-90.mp4",                       -262},
         {"res/MolecularDynamicsSimulation.mp4", -30},
-        {"res/OnlyMotion.mp4", 0},
-        {"res/Oscilloscope.mp4", 2},
-        {"res/Nes8Bit.mp4", -926},
+        {"res/OnlyMotion.mp4",                  0},
+        {"res/Oscilloscope.mp4",                2},
+        {"res/Nes8Bit.mp4",                     -926},
 //        {"res/PauseCantSee.mp4", 0},
-        {"res/PeoplePlayground.mp4", 46},
-        {"res/PhosphorScreen.mp4", 0},
-        {"res/PrimeNumber.mp4", 0},
-        {"res/QrCode.mp4", 0},
-        {"res/RPlace.mp4", 26},
-        {"res/RocketLeague.mp4", -262},
-        {"res/SingleLine.mp4", 0},
-        {"res/StopMotion.mp4", 0},
-        {"res/StraightLines.mp4", 0},
-        {"res/TerminalVLC.mp4", 0},
-        {"res/Terraria.mp4", -1602},
-        {"res/VolumeSlice.mp4", 0},
-        {"res/Water.mp4", 2},
-        {"res/WindowsScreensaver.mp4", -22},
-        {"res/WindowsTaskManager.mp4", 0},
-        {"res/WindowsVirus.mp4", 0},
-        {"res/YoutubeHomepage.mp4", 791},
+        {"res/PeoplePlayground.mp4",            46},
+        {"res/PhosphorScreen.mp4",              0},
+        {"res/PrimeNumber.mp4",                 0},
+        {"res/QrCode.mp4",                      0},
+        {"res/RPlace.mp4",                      26},
+        {"res/RocketLeague.mp4",                -262},
+        {"res/SingleLine.mp4",                  0},
+        {"res/StopMotion.mp4",                  0},
+        {"res/StraightLines.mp4",               0},
+        {"res/TerminalVLC.mp4",                 0},
+        {"res/Terraria.mp4",                    -1602},
+        {"res/VolumeSlice.mp4",                 0},
+        {"res/Water.mp4",                       2},
+        {"res/WindowsScreensaver.mp4",          -22},
+        {"res/WindowsTaskManager.mp4",          0},
+        {"res/WindowsVirus.mp4",                0},
+        {"res/YoutubeHomepage.mp4",             791},
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
@@ -210,5 +210,22 @@ void Utils::destroyQuadTree(QuadTree *quadTree) {
 void Utils::addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int h) {
     cv::Mat cpyAddImg;
     cv::resize(addImg, cpyAddImg, cv::Size(w, h));
+//    cv::cvtColor(cpyAddImg, cpyAddImg, cv::COLOR_BGR2BGRA);
+//    if (w <= 16 || h <= 16) {
+//        int totalAlpha = 0;
+//        int nAlpha = 0;
+//        for (int j = 0; j < cpyAddImg.rows; j++) {
+//            for (int i = 0; i < cpyAddImg.cols; i++) {
+//                totalAlpha += BadApple::imgGrayOrglBA.at<uchar>(y + j, x + i);
+//                nAlpha++;
+//            }
+//        }
+//        double meanAlpha = (double) totalAlpha / (double) nAlpha;
+//        for (int j = 0; j < cpyAddImg.rows; j++) {
+//            for (int i = 0; i < cpyAddImg.cols; i++) {
+//                cpyAddImg.at<cv::Vec4b>(j, i)[3] = (uchar) meanAlpha;
+//            }
+//        }
+//    }
     cpyAddImg.copyTo(src(cv::Rect(cv::Point(x, y), cpyAddImg.size())));
 }
