@@ -1,6 +1,7 @@
 Command :
 #
 ffmpeg -i <.avi> -i <.ogg> -c copy -map 0 -map 1 -shortest <.mp4>
+ffmpeg -framerate 30 -i frame%d.png -c:v png -pix_fmt rgba <.mov>
 
 Add Border To Youtube Thumbnail.
 

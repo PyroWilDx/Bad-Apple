@@ -11,15 +11,11 @@
 //#define TARGET_HEIGHT 360
 //#define TARGET_WIDTH 960
 //#define TARGET_HEIGHT 720
-//#define TARGET_WIDTH 1440
-//#define TARGET_HEIGHT 1080
-#define TARGET_WIDTH 2880
-#define TARGET_HEIGHT 2160
+#define TARGET_WIDTH 1440
+#define TARGET_HEIGHT 1080
+//#define TARGET_WIDTH 2880
+//#define TARGET_HEIGHT 2160
 #define BA_FPS 30
-
-//#define R_LIST_SIZE 8192
-#define R_LIST_SIZE 65536
-#define R_UPDATE_MAX 30
 
 #define QT_PRECISION_W 1
 #define QT_PRECISION_H 1
@@ -55,24 +51,19 @@ public:
     static cv::Size targetSize;
     static const char *orglBAPath;
     static char displayC;
+    static double changeProb;
 
     static const std::vector<VideoInfo> butBAPaths;
 
     static void myAssert(bool cond, const char *errMsg);
 
+    static double getRandomFloat();
+
     static int getRandomInt(int maxExcluded);
 
-    static void swapInt(int *a, int *b);
-
-    static void fillArrayRandom(int array[], int n, int maxExcluded);
-
-    static bool isRectangle(bool **matrix, int x, int y, int w, int h);
+    static void fillMatrixRandom(int **array, int n, int m, int maxExcluded);
 
     static bool isRectangleSameValue(bool **matrix, int x, int y, int w, int h);
-
-    static bool compareRectangle(Rectangle *r1, Rectangle *r2);
-
-    static Rectangle popBiggestRectangleInMatrix(bool **matrix, int w, int h);
 
     static void buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
                                            int x, int y, int w, int h);

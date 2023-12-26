@@ -48,12 +48,9 @@ bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList
 void BadApple::updateStrImg(cv::Mat &imgOrglBA, std::string &targetStrImg) {
     cv::cvtColor(imgOrglBA, BadApple::imgGrayOrglBA, cv::COLOR_BGR2GRAY);
     cv::resize(BadApple::imgGrayOrglBA, BadApple::imgGrayOrglBA, Utils::targetSize);
-    uint8_t intensityMatrix[BadApple::imgGrayOrglBA.rows][BadApple::imgGrayOrglBA.cols];
-    std::string strImg;
     for (int i = 0; i < BadApple::imgGrayOrglBA.rows; i++) {
         for (int j = 0; j < BadApple::imgGrayOrglBA.cols; j++) {
             uint8_t intensity = BadApple::imgGrayOrglBA.at<uchar>(i, j);
-            intensityMatrix[i][j] = intensity;
             if (intensity > 32) targetStrImg += Utils::displayC;
             else targetStrImg += " ";
         }
@@ -72,7 +69,7 @@ void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
     for (int i = 0; i < TARGET_HEIGHT; i++) {
         for (int j = 0; j < TARGET_WIDTH; j++) {
             uint8_t intensity = BadApple::imgGrayOrglBA.at<uchar>(i, j);
-            if (intensity > 32) imgMatrix[i][j] = true;
+            if (intensity > 128) imgMatrix[i][j] = true;
             else imgMatrix[i][j] = false;
         }
     }
@@ -80,11 +77,18 @@ void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
 
 void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                  std::vector<cv::Mat> &imgButBAList,
-                                 int *rdIndexArray, int *rdI) {
-    while (imgButBAList[rdIndexArray[*rdI]].empty()
-           || Utils::butBAPaths[rdIndexArray[*rdI]].delay > BadApple::currFrame) {
+                                 int **rdIndexArray, int *rdI) {
+    int i = rect->y;
+    int j = rect->x;
+
+    if (Utils::getRandomFloat() < Utils::changeProb) {
+        rdIndexArray[i][j] = Utils::getRandomInt(BadApple::nbVideo);
+    }
+
+    while (imgButBAList[rdIndexArray[i][j]].empty()
+           || Utils::butBAPaths[rdIndexArray[i][j]].delay > BadApple::currFrame) {
         if (imgButBAList.size() == 1) goto white; // For Debug a Single Video
-        rdIndexArray[*rdI] = Utils::getRandomInt(BadApple::nbVideo);
+        rdIndexArray[i][j] = Utils::getRandomInt(BadApple::nbVideo);
     }
     if (rect->w < SMALLEST_RECT_W || rect->h < SMALLEST_RECT_H) {
         white: // For Debug a Single Video
@@ -92,27 +96,10 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                            rect->w, rect->h))
                 = cv::Scalar(UCHAR_MAX, UCHAR_MAX, UCHAR_MAX);
     } else {
-        Utils::addImgToImg(targetImg, imgButBAList[rdIndexArray[*rdI]],
+        Utils::addImgToImg(targetImg, imgButBAList[rdIndexArray[i][j]],
                            rect->x, rect->y,
                            rect->w, rect->h);
         *rdI = *rdI + 1;
-    }
-}
-
-void BadApple::updateTargetImgBR(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                                 int *rdIndexArray, cv::Mat &targetImg) {
-    int rdI = 0;
-    while (true) {
-        Rectangle biggestRect = Utils::popBiggestRectangleInMatrix(
-                imgMatrix,
-                TARGET_WIDTH, TARGET_HEIGHT
-        );
-        if (biggestRect.h == 0) break;
-
-        Utils::swapInt(&biggestRect.x, &biggestRect.y);
-
-        addImgToTargetImg(&biggestRect, targetImg, imgButBAList,
-                          rdIndexArray, &rdI);
     }
 }
 
@@ -129,13 +116,12 @@ void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
 }
 
 void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                                 int *rdIndexArray, cv::Mat &targetImg) {
+                                 int **rdIndexArray, cv::Mat &targetImg) {
     QuadTree *quadTree = Utils::getQuadTreeFromMatrix(imgMatrix,
                                                       TARGET_WIDTH, TARGET_HEIGHT);
 
     std::vector<Rectangle *> rects = {};
     iterateQT(quadTree, imgButBAList, rects);
-    std::sort(rects.begin(), rects.end(), &Utils::compareRectangle);
 
     int rdI = 0;
     for (Rectangle *rect: rects) {
@@ -146,18 +132,13 @@ void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButB
 }
 
 void BadApple::updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                           int *rdIndexArray, cv::Mat &targetImg,
-                           cv::VideoWriter &video, bool quadTree) {
-    if (quadTree) {
-        BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
-                                    rdIndexArray, targetImg);
-    } else {
-        BadApple::updateTargetImgBR(imgMatrix, imgButBAList,
-                                    rdIndexArray, targetImg);
-    }
+                           int **rdIndexArray, cv::Mat &targetImg,
+                           cv::VideoWriter &video) {
+    BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
+                                rdIndexArray, targetImg);
 
     cv::Mat videoImg;
-//    cv::cvtColor(targetImg, videoImg, cv::COLOR_BGRA2BGR);
+//    cv::cvtColor(targetImg, videoImg, cv::COLOR_BGRA2BGR); // Alpha
     video.write(targetImg);
 }
 

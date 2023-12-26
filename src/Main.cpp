@@ -31,8 +31,6 @@ int main(int argc, char *argv[]) {
     bool generateVideo = (value == 1);
     bool multiThreading = (value == 2);
 
-    bool useQuadTree = true;
-
     BadApple::initBadApple();
 
     sf::Music music;
@@ -65,8 +63,10 @@ int main(int argc, char *argv[]) {
     }
 
     const std::string wOrgl = "Original";
-    cv::namedWindow(wOrgl, cv::WINDOW_NORMAL);
-    cv::moveWindow(wOrgl, 800, 0);
+    if (terminalMode) {
+        cv::namedWindow(wOrgl, cv::WINDOW_NORMAL);
+        cv::moveWindow(wOrgl, 800, 0);
+    }
 
     const std::string wTarget = "Target";
     if (generateVideo) {
@@ -80,17 +80,17 @@ int main(int argc, char *argv[]) {
     std::string strImg;
 
     bool **imgMatrix;
-    int *rdIndexArray;
-    int rdUpdateCpt = 0;
+    int **rdIndexMatrix;
     cv::Mat targetImg;
 
     if (generateVideo) {
         imgMatrix = (bool **) malloc(sizeof(bool *) * TARGET_HEIGHT);
+        rdIndexMatrix = (int **) malloc(sizeof(int *) * TARGET_HEIGHT);
         for (int i = 0; i < TARGET_HEIGHT; i++) {
             imgMatrix[i] = (bool *) malloc(sizeof(bool) * TARGET_WIDTH);
+            rdIndexMatrix[i] = (int *) malloc(sizeof(int) * TARGET_WIDTH);
         }
-        rdIndexArray = (int *) malloc(sizeof(int) * R_LIST_SIZE);
-        Utils::fillArrayRandom(rdIndexArray, R_LIST_SIZE, BadApple::nbVideo);
+        Utils::fillMatrixRandom(rdIndexMatrix, TARGET_HEIGHT, TARGET_WIDTH, BadApple::nbVideo);
     }
 
     while (true) {
@@ -98,9 +98,9 @@ int main(int argc, char *argv[]) {
 
         std::cout << "Frame : " << BadApple::currFrame << std::endl;
 
-        cv::imshow(wOrgl, imgOrglBA);
-
         if (terminalMode) {
+            cv::imshow(wOrgl, imgOrglBA);
+
             BadApple::updateStrImg(imgOrglBA, strImg);
             BadApple::displayStrImg(strImg);
         }
@@ -109,31 +109,15 @@ int main(int argc, char *argv[]) {
             BadApple::updateMatrix(imgOrglBA, imgMatrix);
 
             targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
-//            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC4);
+//            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC4); // Alpha
 
             BadApple::updateVideo(imgMatrix, imgButBAList,
-                                  rdIndexArray, targetImg,
-                                  generatedVideo, useQuadTree);
+                                  rdIndexMatrix, targetImg,
+                                  generatedVideo);
 
             cv::imshow(wTarget, targetImg);
 
-//            cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg);
-
-            rdUpdateCpt++;
-            if (rdUpdateCpt == R_UPDATE_MAX) {
-                Utils::fillArrayRandom(rdIndexArray, R_LIST_SIZE, BadApple::nbVideo);
-                if (BadApple::currFrame >= 1680 && BadApple::currFrame < 1740) {
-                    int stopMotionI = 0;
-                    int onlyMotionI = 0;
-                    for (int i = 0; i < BadApple::nbVideo; i++) {
-                        if (Utils::butBAPaths[i].path == "res/StopMotion.mp4") stopMotionI = i;
-                        if (Utils::butBAPaths[i].path == "res/OnlyMotion.mp4") onlyMotionI = i;
-                    }
-                    rdIndexArray[0] = stopMotionI;
-                    rdIndexArray[1] = onlyMotionI;
-                }
-                rdUpdateCpt = 0;
-            }
+//            cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg); // Alpha
         }
 
         if (terminalMode) {
@@ -159,7 +143,7 @@ int main(int argc, char *argv[]) {
             free(imgMatrix[i]);
         }
         free(imgMatrix);
-        free(rdIndexArray);
+        free(rdIndexMatrix);
     }
 
     return EXIT_SUCCESS;

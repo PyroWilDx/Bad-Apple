@@ -14,6 +14,7 @@ std::mt19937 gen(rd());
 cv::Size Utils::targetSize = cv::Size(0, 0);
 const char *Utils::orglBAPath = "res/BadApple.mp4";
 char Utils::displayC;
+double Utils::changeProb = 1. / BA_FPS;
 
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
@@ -23,7 +24,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/Apple.mp4",                       0},
         {"res/BlackMIDI.mp4",                   0},
         {"res/C++.mp4",                         0},
-        {"res/C1-65A.mp4",                      46},
+        {"res/C1-65A.mp4",                      38},
         {"res/Chess.mp4",                       4},
         {"res/ConwaysLifeGame.mp4",             -553},
         {"res/Cs-Go.mp4",                       0},
@@ -78,30 +79,22 @@ void Utils::myAssert(bool cond, const char *errMsg) {
     }
 }
 
+double Utils::getRandomFloat() {
+    std::uniform_real_distribution<double> randReal(0., 1.);
+    return randReal(gen);
+}
+
 int Utils::getRandomInt(int maxExcluded) {
     std::uniform_int_distribution<> randInt(0, maxExcluded - 1);
     return randInt(gen);
 }
 
-void Utils::swapInt(int *a, int *b) {
-    int t = *b;
-    *b = *a;
-    *a = t;
-}
-
-void Utils::fillArrayRandom(int *array, int n, int maxExcluded) {
+void Utils::fillMatrixRandom(int **array, int n, int m, int maxExcluded) {
     for (int i = 0; i < n; i++) {
-        array[i] = getRandomInt(maxExcluded);
-    }
-}
-
-bool Utils::isRectangle(bool **matrix, int x, int y, int w, int h) {
-    for (int i = x; i < x + h; i++) {
-        for (int j = y; j < y + w; j++) {
-            if (!matrix[i][j]) return false;
+        for (int j = 0; j < m; j++) {
+            array[i][j] = getRandomInt(maxExcluded);
         }
     }
-    return true;
 }
 
 bool Utils::isRectangleSameValue(bool **matrix, int x, int y, int w, int h) {
@@ -112,41 +105,6 @@ bool Utils::isRectangleSameValue(bool **matrix, int x, int y, int w, int h) {
         }
     }
     return true;
-}
-
-bool Utils::compareRectangle(Rectangle *r1, Rectangle *r2) {
-    int r1Size = r1->w * r1->h;
-    int r2Size = r2->w * r2->h;
-    if (r1Size == r2Size) {
-        int r1Pos = r1->x + r1->y;
-        int r2Pos = r2->x + r2->y;
-        return (r1Pos < r2Pos);
-    }
-    return (r1Size > r2Size);
-}
-
-Rectangle Utils::popBiggestRectangleInMatrix(bool **matrix, int w, int h) {
-    Rectangle biggestRect = {0, 0, 0, 0};
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            int hCurr = biggestRect.h + 1;
-            int wCurr = BadApple::getBAWidthWithHeight(hCurr);
-            while ((i + hCurr < h) && (j + wCurr < w) && isRectangle(matrix, i, j, wCurr, hCurr)) {
-                biggestRect.x = i;
-                biggestRect.y = j;
-                biggestRect.w = wCurr;
-                biggestRect.h = hCurr;
-                hCurr++;
-                wCurr = BadApple::getBAWidthWithHeight(hCurr);
-            }
-        }
-    }
-    for (int i = biggestRect.x; i < biggestRect.x + biggestRect.h; i++) {
-        for (int j = biggestRect.y; j < biggestRect.y + biggestRect.w; j++) {
-            matrix[i][j] = false;
-        }
-    }
-    return biggestRect;
 }
 
 void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
@@ -210,8 +168,8 @@ void Utils::destroyQuadTree(QuadTree *quadTree) {
 void Utils::addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int h) {
     cv::Mat cpyAddImg;
     cv::resize(addImg, cpyAddImg, cv::Size(w, h));
-//    cv::cvtColor(cpyAddImg, cpyAddImg, cv::COLOR_BGR2BGRA);
-//    if (w <= 16 || h <= 16) {
+//    cv::cvtColor(cpyAddImg, cpyAddImg, cv::COLOR_BGR2BGRA); // Alpha
+//    if (w <= 4 || h <= 4) {
 //        int totalAlpha = 0;
 //        int nAlpha = 0;
 //        for (int j = 0; j < cpyAddImg.rows; j++) {
@@ -221,11 +179,6 @@ void Utils::addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int 
 //            }
 //        }
 //        double meanAlpha = (double) totalAlpha / (double) nAlpha;
-//        for (int j = 0; j < cpyAddImg.rows; j++) {
-//            for (int i = 0; i < cpyAddImg.cols; i++) {
-//                cpyAddImg.at<cv::Vec4b>(j, i)[3] = (uchar) meanAlpha;
-//            }
-//        }
 //    }
     cpyAddImg.copyTo(src(cv::Rect(cv::Point(x, y), cpyAddImg.size())));
 }

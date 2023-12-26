@@ -34,20 +34,17 @@ public:
 
     static void addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                   std::vector<cv::Mat> &imgButBAList,
-                                  int *rdIndexArray, int *rdI);
-
-    static void updateTargetImgBR(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                            int *rdIndexArray, cv::Mat &targetImg);
+                                  int **rdIndexArray, int *rdI);
 
     static void iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
                           std::vector<Rectangle *> &rects);
 
     static void updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                                  int *rdIndexArray, cv::Mat &targetImg);
+                                  int **rdIndexArray, cv::Mat &targetImg);
 
     static void updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                            int *rdIndexArray, cv::Mat &targetImg,
-                            cv::VideoWriter &video, bool quadTree);
+                            int **rdIndexArray, cv::Mat &targetImg,
+                            cv::VideoWriter &video);
 
     static int getBAWidthWithHeight(int h);
 
