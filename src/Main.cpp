@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
     }
 
     cv::VideoWriter generatedVideo;
+#ifndef ALPHA
     if (generateVideo) {
         char vidName[256];
         sprintf(vidName, "output/%ld.avi", currTime);
@@ -52,6 +53,7 @@ int main(int argc, char *argv[]) {
         );
         std::cout << "Filename : " << vidName << std::endl;
     }
+#endif
 
     if (multiThreading) {
         std::thread productThread(Threads::productStrImg);
@@ -79,15 +81,15 @@ int main(int argc, char *argv[]) {
 
     std::string strImg;
 
-    bool **imgMatrix;
+    uint8_t **imgMatrix;
     int **rdIndexMatrix;
     cv::Mat targetImg;
 
     if (generateVideo) {
-        imgMatrix = (bool **) malloc(sizeof(bool *) * TARGET_HEIGHT);
+        imgMatrix = (uint8_t **) malloc(sizeof(uint8_t *) * TARGET_HEIGHT);
         rdIndexMatrix = (int **) malloc(sizeof(int *) * TARGET_HEIGHT);
         for (int i = 0; i < TARGET_HEIGHT; i++) {
-            imgMatrix[i] = (bool *) malloc(sizeof(bool) * TARGET_WIDTH);
+            imgMatrix[i] = (uint8_t *) malloc(sizeof(uint8_t) * TARGET_WIDTH);
             rdIndexMatrix[i] = (int *) malloc(sizeof(int) * TARGET_WIDTH);
         }
         Utils::fillMatrixRandom(rdIndexMatrix, TARGET_HEIGHT, TARGET_WIDTH, BadApple::nbVideo);
@@ -108,8 +110,11 @@ int main(int argc, char *argv[]) {
         if (generateVideo) {
             BadApple::updateMatrix(imgOrglBA, imgMatrix);
 
+#ifndef ALPHA
             targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC3);
-//            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC4); // Alpha
+#else
+            targetImg = cv::Mat::zeros(TARGET_HEIGHT, TARGET_WIDTH, CV_8UC4); // Alpha
+#endif
 
             BadApple::updateVideo(imgMatrix, imgButBAList,
                                   rdIndexMatrix, targetImg,
@@ -117,7 +122,9 @@ int main(int argc, char *argv[]) {
 
             cv::imshow(wTarget, targetImg);
 
-//            cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg); // Alpha
+#ifdef ALPHA
+            cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg); // Alpha
+#endif
         }
 
         if (terminalMode) {

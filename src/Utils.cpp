@@ -18,6 +18,7 @@ double Utils::changeProb = 1. / BA_FPS;
 
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
+//        {"res/BadApple.mp4", 0}, // NO
         {"res/ActuallyPlayable.mp4",            -96},
         {"res/AiGenerated.mp4",                 0},
         {"res/AiGeneratedCharacters.mp4",       1},
@@ -39,7 +40,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/LaserTeslaCoil.mp4",              10},
         {"res/MarioCoins.mp4",                  -256},
         {"res/MiddleEurope.mp4",                20},
-//        {"res/MinecraftApple.mp4", -2},
+//        {"res/MinecraftApple.mp4", -2}, // NO
         {"res/MinecraftChiseledBookshelf.mp4",  16},
         {"res/MinecraftCopper.mp4",             162},
         {"res/MinecraftLava.mp4",               0},
@@ -52,7 +53,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/OnlyMotion.mp4",                  0},
         {"res/Oscilloscope.mp4",                2},
         {"res/Nes8Bit.mp4",                     -926},
-//        {"res/PauseCantSee.mp4", 0},
+//        {"res/PauseCantSee.mp4", 0}, // NO
         {"res/PeoplePlayground.mp4",            46},
         {"res/PhosphorScreen.mp4",              0},
         {"res/PrimeNumber.mp4",                 0},
@@ -97,17 +98,43 @@ void Utils::fillMatrixRandom(int **array, int n, int m, int maxExcluded) {
     }
 }
 
-bool Utils::isRectangleSameValue(bool **matrix, int x, int y, int w, int h) {
-    bool value = matrix[y][x];
+bool Utils::isRectangleSameValue(uint8_t **matrix, int x, int y, int w, int h) {
+//    bool valueGtMin = (matrix[y][x] > MIN_INTENSITY);
+//    for (int i = x; i < x + w; i++) {
+//        for (int j = y; j < y + h; j++) {
+//            if (matrix[j][i] > MIN_INTENSITY) {
+//                if (!valueGtMin) return false;
+//            } else {
+//                if (valueGtMin) return false;
+//            }
+//        }
+//    }
+//    return true;
+    int min = 256;
+    int max = 0;
     for (int i = x; i < x + w; i++) {
         for (int j = y; j < y + h; j++) {
-            if (matrix[j][i] != value) return false;
+            if (matrix[j][i] > max) max = matrix[j][i];
+            if (matrix[j][i] < min) min = matrix[j][i];
         }
     }
-    return true;
+    return (max - min < MAX_INTENSITY_GAP);
 }
 
-void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
+bool Utils::hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y, int w, int h) {
+    int totalAlpha = 0;
+    int nAlpha = 0;
+    for (int i = x; i < x + w; i++) {
+        for (int j = y; j < y + h; j++) {
+            totalAlpha += matrix[j][i];
+            nAlpha++;
+        }
+    }
+    double meanAlpha = (double) totalAlpha / (double) nAlpha;
+    return (meanAlpha > MIN_ALPHA);
+}
+
+void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
                                        int x, int y, int w, int h) {
     quadTree->rect.x = x;
     quadTree->rect.y = y;
@@ -117,9 +144,9 @@ void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
     int wHalf = w / 2;
     int hHalf = h / 2;
 
-    if (isRectangleSameValue(matrix, x, y, w, h)
-        || wHalf < QT_PRECISION_W || hHalf < QT_PRECISION_H) {
-        quadTree->value = matrix[y][x];
+    bool isSameValue = isRectangleSameValue(matrix, x, y, w, h);
+    if (isSameValue || wHalf < QT_PRECISION_W || hHalf < QT_PRECISION_H) {
+        quadTree->value = hasRectangleEnoughAlpha(matrix, x, y, w, h);
         quadTree->topLeft = nullptr;
         quadTree->topRight = nullptr;
         quadTree->botLeft = nullptr;
@@ -148,7 +175,7 @@ void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
                                wHalf + wCompensation, hHalf + hCompensation);
 }
 
-QuadTree *Utils::getQuadTreeFromMatrix(bool **matrix, int w, int h) {
+QuadTree *Utils::getQuadTreeFromMatrix(uint8_t **matrix, int w, int h) {
     auto *quadTree = new QuadTree;
     buildQuadTreeFromMatrixRec(quadTree, matrix, 0, 0, w, h);
     return quadTree;
@@ -168,17 +195,25 @@ void Utils::destroyQuadTree(QuadTree *quadTree) {
 void Utils::addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int h) {
     cv::Mat cpyAddImg;
     cv::resize(addImg, cpyAddImg, cv::Size(w, h));
-//    cv::cvtColor(cpyAddImg, cpyAddImg, cv::COLOR_BGR2BGRA); // Alpha
-//    if (w <= 4 || h <= 4) {
-//        int totalAlpha = 0;
-//        int nAlpha = 0;
-//        for (int j = 0; j < cpyAddImg.rows; j++) {
-//            for (int i = 0; i < cpyAddImg.cols; i++) {
-//                totalAlpha += BadApple::imgGrayOrglBA.at<uchar>(y + j, x + i);
-//                nAlpha++;
-//            }
-//        }
-//        double meanAlpha = (double) totalAlpha / (double) nAlpha;
-//    }
+
+#ifdef ALPHA
+    cv::cvtColor(cpyAddImg, cpyAddImg, cv::COLOR_BGR2BGRA); // Alpha
+    int totalAlpha = 0;
+    int nAlpha = 0;
+    for (int j = 0; j < cpyAddImg.rows; j++) {
+        for (int i = 0; i < cpyAddImg.cols; i++) {
+            totalAlpha += BadApple::imgGrayOrglBA.at<uint8_t>(y + j, x + i);
+            nAlpha++;
+        }
+    }
+    double meanAlpha = (double) totalAlpha / (double) nAlpha;
+
+    std::vector<cv::Mat> channels;
+    cv::split(cpyAddImg, channels);
+    cv::Mat alpha = channels[3];
+    alpha.setTo((int) meanAlpha);
+    cv::merge(channels, cpyAddImg);
+#endif
+
     cpyAddImg.copyTo(src(cv::Rect(cv::Point(x, y), cpyAddImg.size())));
 }

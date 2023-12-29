@@ -63,14 +63,14 @@ void BadApple::displayStrImg(std::string &strImg) {
     strImg.clear();
 }
 
-void BadApple::updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix) {
+void BadApple::updateMatrix(cv::Mat &imgOrglBA, uint8_t **imgMatrix) {
     cv::cvtColor(imgOrglBA, BadApple::imgGrayOrglBA, cv::COLOR_BGR2GRAY);
     cv::resize(BadApple::imgGrayOrglBA, BadApple::imgGrayOrglBA, cv::Size(TARGET_WIDTH, TARGET_HEIGHT));
     for (int i = 0; i < TARGET_HEIGHT; i++) {
         for (int j = 0; j < TARGET_WIDTH; j++) {
-            uint8_t intensity = BadApple::imgGrayOrglBA.at<uchar>(i, j);
-            if (intensity > 128) imgMatrix[i][j] = true;
-            else imgMatrix[i][j] = false;
+            uint8_t intensity = BadApple::imgGrayOrglBA.at<uint8_t>(i, j);
+            if (intensity > 0) imgMatrix[i][j] = intensity;
+            else imgMatrix[i][j] = 0;
         }
     }
 }
@@ -115,7 +115,7 @@ void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
     if (quadTree->botRight != nullptr) iterateQT(quadTree->botRight, imgButBAList, rects);
 }
 
-void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+void BadApple::updateTargetImgQT(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                  int **rdIndexArray, cv::Mat &targetImg) {
     QuadTree *quadTree = Utils::getQuadTreeFromMatrix(imgMatrix,
                                                       TARGET_WIDTH, TARGET_HEIGHT);
@@ -131,15 +131,15 @@ void BadApple::updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButB
     Utils::destroyQuadTree(quadTree);
 }
 
-void BadApple::updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                            int **rdIndexArray, cv::Mat &targetImg,
                            cv::VideoWriter &video) {
     BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
                                 rdIndexArray, targetImg);
 
-    cv::Mat videoImg;
-//    cv::cvtColor(targetImg, videoImg, cv::COLOR_BGRA2BGR); // Alpha
+#ifndef ALPHA
     video.write(targetImg);
+#endif
 }
 
 int BadApple::getBAWidthWithHeight(int h) {

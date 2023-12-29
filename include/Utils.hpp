@@ -5,20 +5,27 @@
 #ifndef BADAPPLE_UTILS_HPP
 #define BADAPPLE_UTILS_HPP
 
+#define ALPHA
+
 #define WAIT_TIME 1
 
 //#define TARGET_WIDTH 480
 //#define TARGET_HEIGHT 360
-//#define TARGET_WIDTH 960
-//#define TARGET_HEIGHT 720
-#define TARGET_WIDTH 1440
-#define TARGET_HEIGHT 1080
+#define TARGET_WIDTH 960
+#define TARGET_HEIGHT 720
+//#define TARGET_WIDTH 1440
+//#define TARGET_HEIGHT 1080
 //#define TARGET_WIDTH 2880
 //#define TARGET_HEIGHT 2160
 #define BA_FPS 30
 
 #define QT_PRECISION_W 1
 #define QT_PRECISION_H 1
+
+#define MIN_INTENSITY 32
+#define MAX_INTENSITY_GAP 16
+
+#define MIN_ALPHA 16.
 
 #include <string>
 #include <vector>
@@ -63,12 +70,14 @@ public:
 
     static void fillMatrixRandom(int **array, int n, int m, int maxExcluded);
 
-    static bool isRectangleSameValue(bool **matrix, int x, int y, int w, int h);
+    static bool isRectangleSameValue(uint8_t **matrix, int x, int y, int w, int h);
 
-    static void buildQuadTreeFromMatrixRec(QuadTree *quadTree, bool **matrix,
+    static bool hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y, int w, int h);
+
+    static void buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
                                            int x, int y, int w, int h);
 
-    static QuadTree *getQuadTreeFromMatrix(bool **matrix, int w, int h);
+    static QuadTree *getQuadTreeFromMatrix(uint8_t **matrix, int w, int h);
 
     static void destroyQuadTree(QuadTree *quadTree);
 

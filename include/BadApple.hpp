@@ -30,7 +30,7 @@ public:
 
     static void displayStrImg(std::string &strImg);
 
-    static void updateMatrix(cv::Mat &imgOrglBA, bool **imgMatrix);
+    static void updateMatrix(cv::Mat &imgOrglBA, uint8_t **imgMatrix);
 
     static void addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                                   std::vector<cv::Mat> &imgButBAList,
@@ -39,10 +39,10 @@ public:
     static void iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
                           std::vector<Rectangle *> &rects);
 
-    static void updateTargetImgQT(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+    static void updateTargetImgQT(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                   int **rdIndexArray, cv::Mat &targetImg);
 
-    static void updateVideo(bool **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+    static void updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                             int **rdIndexArray, cv::Mat &targetImg,
                             cv::VideoWriter &video);
 
