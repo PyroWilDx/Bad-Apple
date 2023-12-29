@@ -11,21 +11,21 @@
 
 //#define TARGET_WIDTH 480
 //#define TARGET_HEIGHT 360
-#define TARGET_WIDTH 960
-#define TARGET_HEIGHT 720
-//#define TARGET_WIDTH 1440
-//#define TARGET_HEIGHT 1080
+//#define TARGET_WIDTH 960
+//#define TARGET_HEIGHT 720
+#define TARGET_WIDTH 1440
+#define TARGET_HEIGHT 1080
 //#define TARGET_WIDTH 2880
 //#define TARGET_HEIGHT 2160
 #define BA_FPS 30
 
-#define QT_PRECISION_W 1
-#define QT_PRECISION_H 1
+#define QT_PRECISION_W 6
+#define QT_PRECISION_H 6
 
 #define MIN_INTENSITY 32
-#define MAX_INTENSITY_GAP 16
+#define MAX_INTENSITY_GAP 8
 
-#define MIN_ALPHA 16.
+#define MIN_ALPHA 26.
 
 #include <string>
 #include <vector>

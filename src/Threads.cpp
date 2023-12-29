@@ -21,7 +21,7 @@ void Threads::productStrImg() {
     cv::Mat imgOrglBA;
     std::vector<cv::Mat> imgButBAList = std::vector<cv::Mat>(BadApple::nbVideo);
     while (true) {
-        if (!BadApple::updateImgs(imgOrglBA, imgButBAList)) {
+        if (!BadApple::updateImgs(imgOrglBA, imgButBAList, false)) {
             videoEnded = true;
             break;
         }

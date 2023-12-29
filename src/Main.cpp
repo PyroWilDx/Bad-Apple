@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
     }
 
     while (true) {
-        if (!BadApple::updateImgs(imgOrglBA, imgButBAList)) break;
+        if (!BadApple::updateImgs(imgOrglBA, imgButBAList, generateVideo)) break;
 
         std::cout << "Frame : " << BadApple::currFrame << std::endl;
 

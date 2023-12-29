@@ -30,14 +30,17 @@ void BadApple::initBadApple() {
     }
 }
 
-bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList) {
+bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList,
+                          bool updateButBA) {
     BadApple::orglBA >> imgOrglBA;
 
     if (imgOrglBA.empty()) return false;
 
-    for (int i = 0; i < BadApple::nbVideo; i++) {
-        if (Utils::butBAPaths[i].delay > BadApple::currFrame) continue;
-        BadApple::butBAList[i] >> imgButBAList[i];
+    if (updateButBA) {
+        for (int i = 0; i < BadApple::nbVideo; i++) {
+            if (Utils::butBAPaths[i].delay > BadApple::currFrame) continue;
+            BadApple::butBAList[i] >> imgButBAList[i];
+        }
     }
 
     BadApple::currFrame++;

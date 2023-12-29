@@ -24,7 +24,8 @@ public:
 
     static void initBadApple();
 
-    static bool updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList);
+    static bool updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList,
+                           bool updateButBA);
 
     static void updateStrImg(cv::Mat &imgOrglBA, std::string &targetStrImg);
 
