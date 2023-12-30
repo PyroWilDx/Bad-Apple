@@ -95,6 +95,7 @@ int main(int argc, char *argv[]) {
         Utils::fillMatrixRandom(rdIndexMatrix, TARGET_HEIGHT, TARGET_WIDTH, BadApple::nbVideo);
     }
 
+    bool spaced = false;
     while (true) {
         if (!BadApple::updateImgs(imgOrglBA, imgButBAList, generateVideo)) break;
 
@@ -136,9 +137,16 @@ int main(int argc, char *argv[]) {
                 music.play();
             }
         } else {
-            if (cv::waitKey(WAIT_TIME) == 27) {
+            if (cv::waitKey(WAIT_TIME) == 27 || spaced) {
                 while (true) {
-                    if (cv::waitKey(30) == 27) break;
+                    int key = cv::waitKey(1);
+                    if (key == 27) {
+                        spaced = false;
+                        break;
+                    } else if (key == 32) {
+                        spaced = true;
+                        break;
+                    }
                 }
             }
         }

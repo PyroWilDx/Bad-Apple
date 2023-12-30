@@ -88,6 +88,16 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
         rdIndexArray[i][j] = Utils::getRandomInt(BadApple::nbVideo);
     }
 
+    if (BadApple::currFrame >= 1680 && BadApple::currFrame < 1740
+        && rect->x == 0 && rect->y == 0) {
+        for (int k = 0; k < BadApple::nbVideo; k++) {
+            if (Utils::butBAPaths[k].path == "res/StopMotion.mp4") {
+                rdIndexArray[0][0] = k;
+                break;
+            }
+        }
+    }
+
     while (imgButBAList[rdIndexArray[i][j]].empty()
            || Utils::butBAPaths[rdIndexArray[i][j]].delay > BadApple::currFrame) {
         if (imgButBAList.size() == 1) goto white; // For Debug a Single Video

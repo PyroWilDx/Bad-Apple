@@ -19,27 +19,27 @@ double Utils::changeProb = 1. / BA_FPS;
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
 //        {"res/BadApple.mp4", 0}, // NO
-        {"res/ActuallyPlayable.mp4",            -96},
+        {"res/ActuallyPlayable.mp4",            -97},
         {"res/AiGenerated.mp4",                 0},
-        {"res/AiGeneratedCharacters.mp4",       1},
+//        {"res/AiGeneratedCharacters.mp4",       1}, // NO
         {"res/Apple.mp4",                       0},
-        {"res/BlackMIDI.mp4",                   0},
+        {"res/BlackMIDI.mp4",                   2},
         {"res/C++.mp4",                         0},
-        {"res/C1-65A.mp4",                      38},
-        {"res/Chess.mp4",                       4},
+//        {"res/C1-65A.mp4",                      38}, // NO
+        {"res/Chess.mp4",                       3},
         {"res/ConwaysLifeGame.mp4",             -553},
-        {"res/Cs-Go.mp4",                       0},
+        {"res/Cs-Go.mp4",                       3},
         {"res/Desmos.mp4",                      0},
-        {"res/Discord.mp4",                     -114},
-        {"res/Flick.mp4",                       8},
-        {"res/FourierSeries.mp4",               -772},
+//        {"res/Discord.mp4",                     -114}, // NO
+        {"res/Flick.mp4",                       6},
+        {"res/FourierSeries.mp4",               -775},
         {"res/FourierTransform.mp4",            -362},
         {"res/Gameboy.mp4",                     -20},
         {"res/Laser.mp4",                       -36},
         {"res/LaserShow.mp4",                   -284},
-        {"res/LaserTeslaCoil.mp4",              10},
-        {"res/MarioCoins.mp4",                  -256},
-        {"res/MiddleEurope.mp4",                20},
+        {"res/LaserTeslaCoil.mp4",              8},
+        {"res/MarioCoins.mp4",                  -259},
+        {"res/MiddleEurope.mp4",                17},
 //        {"res/MinecraftApple.mp4", -2}, // NO
         {"res/MinecraftChiseledBookshelf.mp4",  16},
         {"res/MinecraftCopper.mp4",             162},
@@ -47,8 +47,8 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/MinecraftPinkPetal.mp4",          2},
         {"res/MinecraftSheep.mp4",              0},
         {"res/MinecraftTrapdoor.mp4",           -479},
-        {"res/MineSweeper.mp4",                 0},
-        {"res/MK-90.mp4",                       -262},
+        {"res/MineSweeper.mp4",                 3},
+        {"res/MK-90.mp4",                       -263},
         {"res/MolecularDynamicsSimulation.mp4", -30},
         {"res/OnlyMotion.mp4",                  0},
         {"res/Oscilloscope.mp4",                2},
@@ -59,15 +59,15 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/PrimeNumber.mp4",                 0},
         {"res/QrCode.mp4",                      0},
         {"res/RPlace.mp4",                      26},
-        {"res/RocketLeague.mp4",                -262},
+//        {"res/RocketLeague.mp4",                -264}, // NO
         {"res/SingleLine.mp4",                  0},
         {"res/StopMotion.mp4",                  0},
-        {"res/StraightLines.mp4",               0},
-        {"res/TerminalVLC.mp4",                 0},
-        {"res/Terraria.mp4",                    -1602},
+        {"res/StraightLines.mp4",               2},
+        {"res/TerminalVLC.mp4",                 -2},
+        {"res/Terraria.mp4",                    -1601},
         {"res/VolumeSlice.mp4",                 0},
         {"res/Water.mp4",                       2},
-        {"res/WindowsScreensaver.mp4",          -22},
+        {"res/WindowsScreensaver.mp4",          -25},
         {"res/WindowsTaskManager.mp4",          0},
         {"res/WindowsVirus.mp4",                0},
         {"res/YoutubeHomepage.mp4",             791},
@@ -118,10 +118,15 @@ bool Utils::isRectangleSameValue(uint8_t **matrix, int x, int y, int w, int h) {
             if (matrix[j][i] < min) min = matrix[j][i];
         }
     }
-    return (max - min < MAX_INTENSITY_GAP);
+    int maxGap = MAX_INTENSITY_GAP;
+    if (BadApple::currFrame >= 1620 && BadApple::currFrame < 1700) {
+        maxGap = 2;
+    }
+    return ((max - min) < maxGap);
 }
 
-bool Utils::hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y, int w, int h) {
+bool Utils::hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y,
+                                    int w, int h, double minAlpha) {
     int totalAlpha = 0;
     int nAlpha = 0;
     for (int i = x; i < x + w; i++) {
@@ -131,7 +136,7 @@ bool Utils::hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y, int w, int h
         }
     }
     double meanAlpha = (double) totalAlpha / (double) nAlpha;
-    return (meanAlpha > MIN_ALPHA);
+    return (meanAlpha > minAlpha);
 }
 
 void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
@@ -146,7 +151,7 @@ void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
 
     bool isSameValue = isRectangleSameValue(matrix, x, y, w, h);
     if (isSameValue || wHalf < QT_PRECISION_W || hHalf < QT_PRECISION_H) {
-        quadTree->value = hasRectangleEnoughAlpha(matrix, x, y, w, h);
+        quadTree->value = hasRectangleEnoughAlpha(matrix, x, y, w, h, MIN_ALPHA);
         quadTree->topLeft = nullptr;
         quadTree->topRight = nullptr;
         quadTree->botLeft = nullptr;
@@ -177,6 +182,21 @@ void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
 
 QuadTree *Utils::getQuadTreeFromMatrix(uint8_t **matrix, int w, int h) {
     auto *quadTree = new QuadTree;
+
+    int minAlpha = 254.;
+    if (BadApple::currFrame >= 2752 && BadApple::currFrame < 2790) {
+        minAlpha = 252.;
+    }
+    if (hasRectangleEnoughAlpha(matrix, 0, 0, w, h, minAlpha)) {
+        quadTree->value = true;
+        quadTree->rect = {0, 0, w, h};
+        quadTree->topLeft = nullptr;
+        quadTree->topRight = nullptr;
+        quadTree->botLeft = nullptr;
+        quadTree->botRight = nullptr;
+        return quadTree;
+    }
+
     buildQuadTreeFromMatrixRec(quadTree, matrix, 0, 0, w, h);
     return quadTree;
 }
@@ -212,6 +232,24 @@ void Utils::addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int 
     cv::split(cpyAddImg, channels);
     cv::Mat alpha = channels[3];
     alpha.setTo((int) meanAlpha);
+    cv::merge(channels, cpyAddImg);
+#else
+    int totalAlpha = 0;
+    int nAlpha = 0;
+    for (int j = 0; j < cpyAddImg.rows; j++) {
+        for (int i = 0; i < cpyAddImg.cols; i++) {
+            totalAlpha += BadApple::imgGrayOrglBA.at<uint8_t>(y + j, x + i);
+            nAlpha++;
+        }
+    }
+    double meanAlpha = (double) totalAlpha / (double) nAlpha;
+    double factAlpha = meanAlpha / 255.;
+
+    std::vector<cv::Mat> channels;
+    cv::split(cpyAddImg, channels);
+    for (auto &channel: channels) {
+        channel = channel * factAlpha;
+    }
     cv::merge(channels, cpyAddImg);
 #endif
 
