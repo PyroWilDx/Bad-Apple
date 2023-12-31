@@ -9,14 +9,14 @@
 
 #define WAIT_TIME 1
 
-#define TARGET_WIDTH 480
-#define TARGET_HEIGHT 360
+//#define TARGET_WIDTH 480
+//#define TARGET_HEIGHT 360
 //#define TARGET_WIDTH 960
 //#define TARGET_HEIGHT 720
 //#define TARGET_WIDTH 1440
 //#define TARGET_HEIGHT 1080
-//#define TARGET_WIDTH 2880
-//#define TARGET_HEIGHT 2160
+#define TARGET_WIDTH 2880
+#define TARGET_HEIGHT 2160
 #define BA_FPS 30
 
 #define QT_PRECISION_W 1

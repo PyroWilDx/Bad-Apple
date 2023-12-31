@@ -19,62 +19,62 @@ double Utils::changeProb = 1. / BA_FPS;
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
 //        {"res/BadApple.mp4",                    0}, // NO
-//        {"res/50Windows.mp4",                   -35},
-//        {"res/ActuallyPlayable.mp4",            -97},
-//        {"res/AiGenerated.mp4",                 0},
-////        {"res/AiGeneratedCharacters.mp4",       1}, // NO
-////        {"res/Apple.mp4",                       0}, // NO
-//        {"res/AppleEmoji.mp4",                  1},
-//        {"res/BlackMIDI.mp4",                   2},
-//        {"res/C++.mp4",                         0},
-////        {"res/C1-65A.mp4",                      38}, // NO
-//        {"res/Chess.mp4",                       3},
-//        {"res/ConwaysLifeGame.mp4",             -553},
-//        {"res/Cs-Go.mp4",                       3},
-//        {"res/Desmos.mp4",                      0},
-////        {"res/Discord.mp4",                     -114}, // NO
-//        {"res/Fire.mp4",                        5},
-//        {"res/Flick.mp4",                       5},
-//        {"res/FourierSeries.mp4",               -774},
-//        {"res/FourierTransform.mp4",            -362},
-//        {"res/Gameboy.mp4",                     -20},
-////        {"res/HyperbolicPlane.mp4",             0}, // NO
-//        {"res/Laser.mp4",                       -36},
-//        {"res/LaserShow.mp4",                   -284},
-//        {"res/LaserTeslaCoil.mp4",              8},
-//        {"res/MarioCoins.mp4",                  -259},
-//        {"res/MiddleEurope.mp4",                17},
-////        {"res/MinecraftApple.mp4",              -2}, // NO
-//        {"res/MinecraftChiseledBookshelf.mp4",  16},
-//        {"res/MinecraftCopper.mp4",             162},
-//        {"res/MinecraftLava.mp4",               0},
-//        {"res/MinecraftPinkPetal.mp4",          2},
-//        {"res/MinecraftSheep.mp4",              0},
-//        {"res/MinecraftTrapdoor.mp4",           -479},
-//        {"res/MineSweeper.mp4",                 3},
-//        {"res/MK-90.mp4",                       -263},
-//        {"res/MolecularDynamicsSimulation.mp4", -30},
-//        {"res/OnlyMotion.mp4",                  0},
-//        {"res/Oscilloscope.mp4",                2},
-//        {"res/Nes8Bit.mp4",                     -925},
-////        {"res/PauseCantSee.mp4",                0}, // NO
-//        {"res/PeoplePlayground.mp4",            46},
-//        {"res/PhosphorScreen.mp4",              0},
-//        {"res/PrimeNumber.mp4",                 0},
-//        {"res/QrCode.mp4",                      0},
-//        {"res/RPlace.mp4",                      26},
-////        {"res/RocketLeague.mp4",                -264}, // NO
-//        {"res/SingleLine.mp4",                  0},
-//        {"res/StopMotion.mp4",                  0},
-//        {"res/StraightLines.mp4",               2},
-//        {"res/TerminalVLC.mp4",                 -2},
-//        {"res/Terraria.mp4",                    -1601},
-//        {"res/VolumeSlice.mp4",                 0},
-//        {"res/Water.mp4",                       2},
-//        {"res/WindowsScreensaver.mp4",          -25},
-//        {"res/WindowsTaskManager.mp4",          0},
-//        {"res/WindowsVirus.mp4",                0},
-//        {"res/YoutubeHomepage.mp4",             791},
+        {"res/50Windows.mp4",                   -35},
+        {"res/ActuallyPlayable.mp4",            -97},
+        {"res/AiGenerated.mp4",                 0},
+//        {"res/AiGeneratedCharacters.mp4",       1}, // NO
+//        {"res/Apple.mp4",                       0}, // NO
+        {"res/AppleEmoji.mp4",                  1},
+        {"res/BlackMIDI.mp4",                   2},
+        {"res/C++.mp4",                         0},
+//        {"res/C1-65A.mp4",                      38}, // NO
+        {"res/Chess.mp4",                       3},
+        {"res/ConwaysLifeGame.mp4",             -553},
+        {"res/Cs-Go.mp4",                       3},
+        {"res/Desmos.mp4",                      0},
+//        {"res/Discord.mp4",                     -114}, // NO
+        {"res/Fire.mp4",                        5},
+        {"res/Flick.mp4",                       5},
+        {"res/FourierSeries.mp4",               -774},
+        {"res/FourierTransform.mp4",            -362},
+        {"res/Gameboy.mp4",                     -20},
+//        {"res/HyperbolicPlane.mp4",             0}, // NO
+        {"res/Laser.mp4",                       -36},
+        {"res/LaserShow.mp4",                   -284},
+        {"res/LaserTeslaCoil.mp4",              8},
+        {"res/MarioCoins.mp4",                  -259},
+        {"res/MiddleEurope.mp4",                17},
+//        {"res/MinecraftApple.mp4",              -2}, // NO
+        {"res/MinecraftChiseledBookshelf.mp4",  16},
+        {"res/MinecraftCopper.mp4",             162},
+        {"res/MinecraftLava.mp4",               0},
+        {"res/MinecraftPinkPetal.mp4",          2},
+        {"res/MinecraftSheep.mp4",              0},
+        {"res/MinecraftTrapdoor.mp4",           -479},
+        {"res/MineSweeper.mp4",                 3},
+        {"res/MK-90.mp4",                       -263},
+        {"res/MolecularDynamicsSimulation.mp4", -30},
+        {"res/OnlyMotion.mp4",                  0},
+        {"res/Oscilloscope.mp4",                2},
+//        {"res/Nes8Bit.mp4",                     -925}, // NO
+//        {"res/PauseCantSee.mp4",                0}, // NO
+//        {"res/PeoplePlayground.mp4",            46}, // NO
+        {"res/PhosphorScreen.mp4",              0},
+        {"res/PrimeNumber.mp4",                 0},
+        {"res/QrCode.mp4",                      0},
+        {"res/RPlace.mp4",                      26},
+//        {"res/RocketLeague.mp4",                -264}, // NO
+        {"res/SingleLine.mp4",                  0},
+        {"res/StopMotion.mp4",                  0},
+        {"res/StraightLines.mp4",               2},
+        {"res/TerminalVLC.mp4",                 -2},
+//        {"res/Terraria.mp4",                    -1601}, // NO
+        {"res/VolumeSlice.mp4",                 0},
+        {"res/Water.mp4",                       2},
+        {"res/WindowsScreensaver.mp4",          -25},
+        {"res/WindowsTaskManager.mp4",          0},
+        {"res/WindowsVirus.mp4",                0},
+        {"res/YoutubeHomepage.mp4",             791},
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
@@ -125,8 +125,6 @@ bool Utils::isRectangleSameValue(uint8_t **matrix, int x, int y, int w, int h) {
     int maxGap = MAX_INTENSITY_GAP;
     if (BadApple::currFrame >= 1620 && BadApple::currFrame < 1700) {
         maxGap = 2;
-    } else if (BadApple::currFrame >= 1820 && BadApple::currFrame < 1860) {
-        maxGap = 222;
     }
     return ((max - min) < maxGap);
 }
