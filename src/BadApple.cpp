@@ -84,7 +84,8 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
     int i = rect->y;
     int j = rect->x;
 
-    if (Utils::getRandomFloat() < Utils::changeProb) {
+    if (Utils::getRandomFloat() < Utils::changeProb
+        && rect->w != TARGET_WIDTH && rect->h != TARGET_HEIGHT) {
         rdIndexArray[i][j] = Utils::getRandomInt(BadApple::nbVideo);
     }
 

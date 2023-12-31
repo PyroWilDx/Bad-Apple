@@ -1,29 +1,32 @@
 Command :
 #
-ffmpeg -i <video> -i <music> -c copy -map 0 -map 1 -shortest <output>
-ffmpeg -framerate 30 -i frame%d.png -c:v png -pix_fmt rgba AlphaOutput.mov
+Add Music : ffmpeg -i <video> -i <music> -c copy -map 0 -map 1 -shortest <output>
+Alpha : ffmpeg -framerate 30 -i frame%d.png -c:v png -pix_fmt rgba AlphaOutput.mov
 
-Add Border To Youtube Thumbnail.
+<!> Add Border To Youtube Thumbnail <!>
 
 Title :
 #
-Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos
+1) Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos
+2) Bad Apple!! but Every Pixel is a Random "Bad Apple!! but..." Video
 
 Description :
 #
 Original "Bad Apple!!" Video : https://www.youtube.com/watch?v=FtutLA63Cp8
 
 Used Videos :
+• "Bad Apple!! but On 50 Windows" - https://www.youtube.com/watch?v=Sj2GfAbLq4w
 • "Bad Apple!! but It's Actually Playable" - https://www.youtube.com/watch?v=41xx6qnSpS0
 • "Bad Apple!! but It's AI-Generated Paintings" - https://www.youtube.com/watch?v=E58aMjthQCM
-• "Bad Apple!! but Played on Apples" - https://www.youtube.com/watch?v=ywy-OwHejfs
+• "Bad Apple!! but It's Apple Emoji" - https://www.youtube.com/watch?v=JAHMoD_7mjY
 • "Bad Apple!! but It's a Music Video as MIDI" - https://www.youtube.com/watch?v=SjvomcZKbk0
 • "Bad Apple!! but In The Biggest Pain of C++" - https://www.youtube.com/watch?v=Ome1vIXt4xk
 • "Bad Apple!! but Played in Chess" - https://www.youtube.com/watch?v=7_0IQfzoEPo
 • "Bad Apple!! but Played in Conway's Game of Life" - https://www.youtube.com/watch?v=KLLYet7qHbU
 • "Bad Apple!! but It's Counter-Strike Bullet Holes" - https://www.youtube.com/watch?v=J1AraXmlYqM
 • "Bad Apple!! but In Desmos" - https://www.youtube.com/watch?v=5I4qIUC0Yh4
-• "Bad Apple!!" - https://www.youtube.com/watch?v=ko0z3SfXpm8
+• "Bad Apple!! but It's a Volumetric Fluid Simulation" - https://www.youtube.com/watch?v=MYb7xRKCF-0
+• "Bad Apple!! but Idk..." - https://www.youtube.com/watch?v=ko0z3SfXpm8
 • "Bad Apple!! but Rendered as Fourier Series" - https://www.youtube.com/watch?v=GGPjQGOCbTY
 • "Bad Apple!! but Rendered as Short Time Fourier Transform" - https://www.youtube.com/watch?v=VkdBqXakTS8
 • "Bad Apple!! but On 8-Bit Gameboy" - https://www.youtube.com/watch?v=gy3NCr4rX-Y
