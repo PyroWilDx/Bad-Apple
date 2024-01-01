@@ -8,11 +8,9 @@
 
 #### ――――――――――
 
-Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos.
+Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos : [TODO](TODO).
 
-Video : [https://youtu.be/N7RRG-Xc_YE](https://youtu.be/N7RRG-Xc_YE).
-
-Remastered Version : [https://youtu.be/lTSexYZk1Ck](https://youtu.be/lTSexYZk1Ck).
+Bad Apple!! but Every Pixel is a Random "Bad Apple!! but..." Video : [TODO](TODO).
 
 ![Thumbnail](youtube/Thumbnail.png)
 

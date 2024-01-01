@@ -6,6 +6,7 @@
 #define BADAPPLE_UTILS_HPP
 
 //#define ALPHA
+#define MODE 1
 
 #define WAIT_TIME 1
 
@@ -15,8 +16,12 @@
 //#define TARGET_HEIGHT 720
 //#define TARGET_WIDTH 1440
 //#define TARGET_HEIGHT 1080
-#define TARGET_WIDTH 2880
-#define TARGET_HEIGHT 2160
+//#define TARGET_WIDTH 2880
+//#define TARGET_HEIGHT 2160
+
+#define TARGET_WIDTH 2870
+#define TARGET_HEIGHT 2156
+
 #define BA_FPS 30
 
 #define QT_PRECISION_W 1
@@ -83,6 +88,9 @@ public:
     static void destroyQuadTree(QuadTree *quadTree);
 
     static void addImgToImg(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int h);
+
+    static void addImgToImgMapAlpha(cv::Mat &src, cv::Mat &addImg,
+                                    int x, int y, int w, int h);
 
 };
 

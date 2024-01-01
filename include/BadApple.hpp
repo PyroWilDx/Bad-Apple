@@ -43,6 +43,9 @@ public:
     static void updateTargetImgQT(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                                   int **rdIndexArray, cv::Mat &targetImg);
 
+    static void updateTargetImgMode1(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+                                     cv::Mat &targetImg);
+
     static void updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                             int **rdIndexArray, cv::Mat &targetImg,
                             cv::VideoWriter &video);

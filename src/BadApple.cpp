@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <algorithm>
+#include <random>
 #include "BadApple.hpp"
 
 cv::VideoCapture BadApple::orglBA;
@@ -17,6 +19,7 @@ void BadApple::initBadApple() {
     Utils::myAssert(BadApple::orglBA.isOpened(), "Failed to open video.");
 
     BadApple::nbVideo = (int) Utils::butBAPaths.size();
+    std::cout << "Video Count : " << BadApple::nbVideo << std::endl;
     cv::Mat tmpImg;
     for (int i = 0; i < BadApple::nbVideo; i++) {
         cv::VideoCapture butBA = cv::VideoCapture(Utils::butBAPaths[i].path);
@@ -27,6 +30,11 @@ void BadApple::initBadApple() {
                 butBA >> tmpImg;
             }
         }
+    }
+    if (MODE == 1) {
+        std::random_device rd;
+        std::default_random_engine rng(rd());
+        std::shuffle(BadApple::butBAList.begin(), BadApple::butBAList.end(), rng);
     }
 }
 
@@ -152,11 +160,35 @@ void BadApple::updateTargetImgQT(uint8_t **imgMatrix, std::vector<cv::Mat> &imgB
     Utils::destroyQuadTree(quadTree);
 }
 
+void BadApple::updateTargetImgMode1(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
+                                    cv::Mat &targetImg) {
+    int xImg, yImg;
+    int wImg = (TARGET_WIDTH / 7);
+    int hImg = (TARGET_HEIGHT / 7);
+    int i = 0;
+    for (int x = 0; x < 7; x++) {
+        for (int y = 0; y < 7; y++) {
+            if (!imgButBAList[i].empty()) {
+                xImg = x * (TARGET_HEIGHT / 7);
+                yImg = y * (TARGET_WIDTH / 7);
+                Utils::addImgToImgMapAlpha(targetImg, imgButBAList[i],
+                                           yImg, xImg, wImg, hImg);
+            }
+            i++;
+        }
+    }
+
+}
+
 void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                            int **rdIndexArray, cv::Mat &targetImg,
                            cv::VideoWriter &video) {
-    BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
-                                rdIndexArray, targetImg);
+    if (MODE == 0) {
+        BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
+                                    rdIndexArray, targetImg);
+    } else {
+        BadApple::updateTargetImgMode1(imgMatrix, imgButBAList, targetImg);
+    }
 
 #ifndef ALPHA
     video.write(targetImg);

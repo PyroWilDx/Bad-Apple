@@ -70,11 +70,11 @@ int main(int argc, char *argv[]) {
         cv::moveWindow(wOrgl, 800, 0);
     }
 
-//    const std::string wTarget = "Target";
-//    if (generateVideo) {
-//        cv::namedWindow(wTarget, cv::WINDOW_NORMAL);
-//        cv::moveWindow(wTarget, 800, 400);
-//    }
+    const std::string wTarget = "Target";
+    if (generateVideo) {
+        cv::namedWindow(wTarget, cv::WINDOW_NORMAL);
+        cv::moveWindow(wTarget, 800, 400);
+    }
 
     cv::Mat imgOrglBA;
     std::vector<cv::Mat> imgButBAList = std::vector<cv::Mat>(BadApple::nbVideo);
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
                                   rdIndexMatrix, targetImg,
                                   generatedVideo);
 
-//            cv::imshow(wTarget, targetImg);
+            cv::imshow(wTarget, targetImg);
 
 #ifdef ALPHA
             cv::imwrite("output/frame" + std::to_string(BadApple::currFrame) + ".png", targetImg); // Alpha
