@@ -20,6 +20,7 @@ double Utils::changeProb = 1. / BA_FPS;
 const std::vector<VideoInfo> Utils::butBAPaths = {
 //        {"res/BadApple.mp4",                    0}, // NO
         {"res/50Windows.mp4",                   -35},
+        {"res/80SynthWave.mp4",                 8},
         {"res/ActuallyPlayable.mp4",            -97},
         {"res/AiGenerated.mp4",                 0},
 //        {"res/AiGeneratedCharacters.mp4",       1}, // NO
@@ -34,15 +35,15 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/Desmos.mp4",                      0},
 //        {"res/Discord.mp4",                     -114}, // NO
         {"res/Fire.mp4",                        5},
-        {"res/Flick.mp4",                       5},
+//        {"res/Flick.mp4",                       5}, // NO
         {"res/FourierSeries.mp4",               -774},
         {"res/FourierTransform.mp4",            -362},
         {"res/Gameboy.mp4",                     -20},
 //        {"res/HyperbolicPlane.mp4",             0}, // NO
         {"res/Laser.mp4",                       -36},
-        {"res/LaserShow.mp4",                   -284},
+//        {"res/LaserShow.mp4",                   -284}, // NO
         {"res/LaserTeslaCoil.mp4",              8},
-        {"res/MarioCoins.mp4",                  -259},
+//        {"res/MarioCoins.mp4",                  -24}, // NO
         {"res/MiddleEurope.mp4",                17},
 //        {"res/MinecraftApple.mp4",              -2}, // NO
         {"res/MinecraftChiseledBookshelf.mp4",  16},
@@ -64,11 +65,15 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/QrCode.mp4",                      0},
         {"res/RPlace.mp4",                      26},
 //        {"res/RocketLeague.mp4",                -264}, // NO
+        {"res/Scratch.mp4",                     -53},
         {"res/SingleLine.mp4",                  0},
+        {"res/Spaghetti.mp4",                   0},
         {"res/StopMotion.mp4",                  0},
         {"res/StraightLines.mp4",               2},
+        {"res/SuperMarioBrosX.mp4",             1},
         {"res/TerminalVLC.mp4",                 -2},
 //        {"res/Terraria.mp4",                    -1601}, // NO
+        {"res/TimeSeries.mp4",                  4},
         {"res/VolumeSlice.mp4",                 0},
         {"res/Water.mp4",                       2},
         {"res/WindowsScreensaver.mp4",          -25},

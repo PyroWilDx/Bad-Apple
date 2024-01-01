@@ -97,6 +97,13 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
                 break;
             }
         }
+    } else if (BadApple::currFrame >= 2700 && BadApple::currFrame < 2740) {
+        for (int k = 0; k < BadApple::nbVideo; k++) {
+            if (Utils::butBAPaths[k].path == "res/Spaghetti.mp4") {
+                rdIndexArray[0][0] = k;
+                break;
+            }
+        }
     }
 
     while (imgButBAList[rdIndexArray[i][j]].empty()
