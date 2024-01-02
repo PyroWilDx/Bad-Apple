@@ -12,11 +12,16 @@
 #define SMALLEST_RECT_W 1
 #define SMALLEST_RECT_H 1
 
+typedef struct Video {
+    cv::VideoCapture vid;
+    int delay;
+} Video;
+
 class BadApple {
 
 public:
     static cv::VideoCapture orglBA;
-    static std::vector<cv::VideoCapture> butBAList;
+    static std::vector<Video> butBAList;
     static int nbVideo;
 
     static int currFrame;

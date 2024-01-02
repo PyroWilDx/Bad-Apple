@@ -8,7 +8,7 @@
 #include "BadApple.hpp"
 
 cv::VideoCapture BadApple::orglBA;
-std::vector<cv::VideoCapture> BadApple::butBAList = {};
+std::vector<Video> BadApple::butBAList = {};
 int BadApple::nbVideo = 0;
 
 int BadApple::currFrame = 0;
@@ -24,17 +24,20 @@ void BadApple::initBadApple() {
     for (int i = 0; i < BadApple::nbVideo; i++) {
         cv::VideoCapture butBA = cv::VideoCapture(Utils::butBAPaths[i].path);
         Utils::myAssert(butBA.isOpened(), "Failed to open video.");
-        BadApple::butBAList.push_back(butBA);
-        if (Utils::butBAPaths[i].delay < 0) {
-            for (int j = 0; j < -Utils::butBAPaths[i].delay; j++) {
-                butBA >> tmpImg;
-            }
-        }
+        Video butBAVid = {butBA, Utils::butBAPaths[i].delay};
+        BadApple::butBAList.push_back(butBAVid);
     }
     if (MODE == 1) {
         std::random_device rd;
         std::default_random_engine rng(rd());
-        std::shuffle(BadApple::butBAList.begin(), BadApple::butBAList.end(), rng);
+        std::shuffle(BadApple::butBAList.begin() + 1, BadApple::butBAList.end(), rng);
+    }
+    for (int i = 0; i < BadApple::nbVideo; i++) {
+        if (BadApple::butBAList[i].delay < 0) {
+            for (int j = 0; j < -BadApple::butBAList[i].delay; j++) {
+                BadApple::butBAList[i].vid >> tmpImg;
+            }
+        }
     }
 }
 
@@ -46,8 +49,8 @@ bool BadApple::updateImgs(cv::Mat &imgOrglBA, std::vector<cv::Mat> &imgButBAList
 
     if (updateButBA) {
         for (int i = 0; i < BadApple::nbVideo; i++) {
-            if (Utils::butBAPaths[i].delay > BadApple::currFrame) continue;
-            BadApple::butBAList[i] >> imgButBAList[i];
+            if (BadApple::butBAList[i].delay > BadApple::currFrame) continue;
+            BadApple::butBAList[i].vid >> imgButBAList[i];
         }
     }
 
@@ -168,6 +171,9 @@ void BadApple::updateTargetImgMode1(uint8_t **imgMatrix, std::vector<cv::Mat> &i
     int i = 0;
     for (int x = 0; x < 7; x++) {
         for (int y = 0; y < 7; y++) {
+            if (Utils::butBAPaths[i].delay > BadApple::currFrame) {
+
+            }
             if (!imgButBAList[i].empty()) {
                 xImg = x * (TARGET_HEIGHT / 7);
                 yImg = y * (TARGET_WIDTH / 7);

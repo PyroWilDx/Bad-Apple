@@ -49,7 +49,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
 //        {"res/MinecraftApple.mp4",              -2}, // NO
         {"res/MinecraftChiseledBookshelf.mp4",  16},
 //        {"res/MinecraftCopper.mp4",             162}, // For Mode 0
-        {"res/MinecraftLava.mp4",               0},
+        {"res/MinecraftLava.mp4",               -3},
         {"res/MinecraftPinkPetal.mp4",          2},
         {"res/MinecraftSheep.mp4",              0},
         {"res/MinecraftTrapdoor.mp4",           -479},
@@ -77,7 +77,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/TimeSeries.mp4",                  4},
         {"res/VolumeSlice.mp4",                 0},
         {"res/Water.mp4",                       2},
-        {"res/WindowsScreensaver.mp4",          -25},
+        {"res/WindowsScreensaver.mp4",          -24},
         {"res/WindowsTaskManager.mp4",          0},
         {"res/WindowsVirus.mp4",                0},
 //        {"res/YoutubeHomepage.mp4",             791}, // For Mode 0
