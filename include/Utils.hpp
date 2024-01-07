@@ -6,7 +6,7 @@
 #define BADAPPLE_UTILS_HPP
 
 //#define ALPHA
-#define MODE 2
+#define MODE 0
 
 #define WAIT_TIME 1
 
