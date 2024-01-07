@@ -149,7 +149,7 @@ bool Utils::hasRectangleEnoughAlpha(uint8_t **matrix, int x, int y,
     return (meanAlpha > minAlpha);
 }
 
-void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix,
+void Utils::buildQuadTreeFromMatrixRec(QuadTree *quadTree, uint8_t **matrix, // NOLINT
                                        int x, int y, int w, int h) {
     quadTree->rect.x = x;
     quadTree->rect.y = y;
@@ -213,7 +213,7 @@ QuadTree *Utils::getQuadTreeFromMatrix(uint8_t **matrix, int w, int h) {
     return quadTree;
 }
 
-void Utils::destroyQuadTree(QuadTree *quadTree) {
+void Utils::destroyQuadTree(QuadTree *quadTree) { // NOLINT
     if (quadTree == nullptr) return;
 
     destroyQuadTree(quadTree->topLeft);

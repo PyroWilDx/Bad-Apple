@@ -27,7 +27,7 @@ void BadApple::initBadApple() {
         Video butBAVid = {butBA, Utils::butBAPaths[i].delay};
         BadApple::butBAList.push_back(butBAVid);
     }
-    if (MODE == 1) {
+    if (MODE == 1) { // NOLINT
         std::random_device rd;
         std::default_random_engine rng(rd());
         std::shuffle(BadApple::butBAList.begin() + 1, BadApple::butBAList.end(), rng);
@@ -135,7 +135,7 @@ void BadApple::addImgToTargetImg(Rectangle *rect, cv::Mat &targetImg,
     }
 }
 
-void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList,
+void BadApple::iterateQT(QuadTree *quadTree, std::vector<cv::Mat> &imgButBAList, // NOLINT
                          std::vector<Rectangle *> &rects) {
     if (quadTree->value) {
         rects.push_back(&quadTree->rect);
@@ -196,12 +196,12 @@ void BadApple::updteTargetImgMode2(std::vector<cv::Mat> &imgButBAList, cv::Mat &
 void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
                            int **rdIndexArray, cv::Mat &targetImg,
                            cv::VideoWriter &video) {
-    if (MODE == 0) {
+    if (MODE == 0) { // NOLINT
         BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
                                     rdIndexArray, targetImg);
-    } else if (MODE == 1) {
+    } else if (MODE == 1) { // NOLINT
         BadApple::updateTargetImgMode1(imgButBAList, targetImg);
-    } else if (MODE == 2) {
+    } else if (MODE == 2) { // NOLINT
         BadApple::updteTargetImgMode2(imgButBAList, targetImg);
     }
 
