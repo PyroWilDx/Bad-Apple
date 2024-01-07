@@ -210,6 +210,6 @@ void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBALi
 #endif
 }
 
-int BadApple::getBAWidthWithHeight(int h) {
-    return (int) lround(((double) h * ((double) TARGET_WIDTH / (double) TARGET_HEIGHT)));
-}
+//int BadApple::getBAWidthWithHeight(int h) {
+//    return (int) lround(((double) h * ((double) TARGET_WIDTH / (double) TARGET_HEIGHT)));
+//}

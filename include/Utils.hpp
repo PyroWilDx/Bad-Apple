@@ -27,7 +27,7 @@
 #define QT_PRECISION_W 6
 #define QT_PRECISION_H 6
 
-#define MIN_INTENSITY 32
+//#define MIN_INTENSITY 32
 #define MAX_INTENSITY_GAP 6
 
 #define MIN_ALPHA 32.

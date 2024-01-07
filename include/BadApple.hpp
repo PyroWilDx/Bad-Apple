@@ -56,7 +56,7 @@ public:
                             int **rdIndexArray, cv::Mat &targetImg,
                             cv::VideoWriter &video);
 
-    static int getBAWidthWithHeight(int h);
+//    static int getBAWidthWithHeight(int h);
 
 };
 
