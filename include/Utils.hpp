@@ -6,29 +6,29 @@
 #define BADAPPLE_UTILS_HPP
 
 //#define ALPHA
-#define MODE 0
+#define MODE 2
 
 #define WAIT_TIME 1
 
-#define TARGET_WIDTH 480
-#define TARGET_HEIGHT 360
+//#define TARGET_WIDTH 480
+//#define TARGET_HEIGHT 360
 //#define TARGET_WIDTH 960
 //#define TARGET_HEIGHT 720
 //#define TARGET_WIDTH 1440
 //#define TARGET_HEIGHT 1080
-//#define TARGET_WIDTH 2880
-//#define TARGET_HEIGHT 2160
+#define TARGET_WIDTH 2880
+#define TARGET_HEIGHT 2160
 
 //#define TARGET_WIDTH 2870
 //#define TARGET_HEIGHT 2156
 
 #define BA_FPS 30
 
-#define QT_PRECISION_W 1
-#define QT_PRECISION_H 1
+#define QT_PRECISION_W 6
+#define QT_PRECISION_H 6
 
 #define MIN_INTENSITY 32
-#define MAX_INTENSITY_GAP 4
+#define MAX_INTENSITY_GAP 6
 
 #define MIN_ALPHA 32.
 
@@ -91,6 +91,9 @@ public:
 
     static void addImgToImgMapAlpha(cv::Mat &src, cv::Mat &addImg,
                                     int x, int y, int w, int h);
+
+    static void addImgToImgSimple(cv::Mat &src, cv::Mat &addImg,
+                                  int x, int y, int w, int h);
 
 };
 

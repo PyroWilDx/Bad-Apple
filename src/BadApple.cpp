@@ -163,8 +163,7 @@ void BadApple::updateTargetImgQT(uint8_t **imgMatrix, std::vector<cv::Mat> &imgB
     Utils::destroyQuadTree(quadTree);
 }
 
-void BadApple::updateTargetImgMode1(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
-                                    cv::Mat &targetImg) {
+void BadApple::updateTargetImgMode1(std::vector<cv::Mat> &imgButBAList, cv::Mat &targetImg) {
     int xImg, yImg;
     int wImg = (TARGET_WIDTH / 7);
     int hImg = (TARGET_HEIGHT / 7);
@@ -183,7 +182,15 @@ void BadApple::updateTargetImgMode1(uint8_t **imgMatrix, std::vector<cv::Mat> &i
             i++;
         }
     }
+}
 
+void BadApple::updteTargetImgMode2(std::vector<cv::Mat> &imgButBAList, cv::Mat &targetImg) {
+    int rdI = Utils::getRandomInt(BadApple::nbVideo);
+    while (imgButBAList[rdI].empty()) {
+        rdI = Utils::getRandomInt(BadApple::nbVideo);
+    }
+    Utils::addImgToImgSimple(targetImg, imgButBAList[rdI],
+                             0, 0, TARGET_WIDTH, TARGET_HEIGHT);
 }
 
 void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBAList,
@@ -192,8 +199,10 @@ void BadApple::updateVideo(uint8_t **imgMatrix, std::vector<cv::Mat> &imgButBALi
     if (MODE == 0) {
         BadApple::updateTargetImgQT(imgMatrix, imgButBAList,
                                     rdIndexArray, targetImg);
-    } else {
-        BadApple::updateTargetImgMode1(imgMatrix, imgButBAList, targetImg);
+    } else if (MODE == 1) {
+        BadApple::updateTargetImgMode1(imgButBAList, targetImg);
+    } else if (MODE == 2) {
+        BadApple::updteTargetImgMode2(imgButBAList, targetImg);
     }
 
 #ifndef ALPHA
