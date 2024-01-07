@@ -18,7 +18,7 @@ double Utils::changeProb = 1. / BA_FPS;
 
 // Every Video : 30 FPS
 const std::vector<VideoInfo> Utils::butBAPaths = {
-        {"res/BadApple.mp4",                    0}, // For Mode 1
+//        {"res/BadApple.mp4",                    0}, // For Mode 1
         {"res/50Windows.mp4",                   -35},
         {"res/80SynthWave.mp4",                 8},
         {"res/ActuallyPlayable.mp4",            -97},
@@ -30,13 +30,13 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/C++.mp4",                         -3},
 //        {"res/C1-65A.mp4",                      38}, // NO
         {"res/Chess.mp4",                       3},
-        {"res/ColorChannels.mp4",               0}, // For Mode 1
+//        {"res/ColorChannels.mp4",               0}, // For Mode 1
         {"res/ConwaysLifeGame.mp4",             -553},
         {"res/Cs-Go.mp4",                       3},
         {"res/Desmos.mp4",                      0},
 //        {"res/Discord.mp4",                     -114}, // NO
         {"res/Fire.mp4",                        5},
-        {"res/Flick.mp4",                       5}, // For Mode 1
+//        {"res/Flick.mp4",                       5}, // For Mode 1
         {"res/FourierSeries.mp4",               -774},
         {"res/FourierTransform.mp4",            -362},
         {"res/Gameboy.mp4",                     -20},
@@ -48,7 +48,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/MiddleEurope.mp4",                17},
 //        {"res/MinecraftApple.mp4",              -2}, // NO
         {"res/MinecraftChiseledBookshelf.mp4",  16},
-//        {"res/MinecraftCopper.mp4",             162}, // For Mode 0
+        {"res/MinecraftCopper.mp4",             162}, // For Mode 0
         {"res/MinecraftLava.mp4",               -3},
         {"res/MinecraftPinkPetal.mp4",          2},
         {"res/MinecraftSheep.mp4",              0},
@@ -65,7 +65,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/PrimeNumber.mp4",                 0},
         {"res/QrCode.mp4",                      0},
         {"res/RPlace.mp4",                      26},
-        {"res/RocketLeague.mp4",                -264}, // For Mode 1
+//        {"res/RocketLeague.mp4",                -264}, // For Mode 1
         {"res/Scratch.mp4",                     -53},
         {"res/SingleLine.mp4",                  0},
         {"res/Spaghetti.mp4",                   0},
@@ -80,7 +80,7 @@ const std::vector<VideoInfo> Utils::butBAPaths = {
         {"res/WindowsScreensaver.mp4",          -24},
         {"res/WindowsTaskManager.mp4",          0},
         {"res/WindowsVirus.mp4",                0},
-//        {"res/YoutubeHomepage.mp4",             791}, // For Mode 0
+        {"res/YoutubeHomepage.mp4",             791}, // For Mode 0
 };
 
 void Utils::myAssert(bool cond, const char *errMsg) {
@@ -282,5 +282,11 @@ void Utils::addImgToImgMapAlpha(cv::Mat &src, cv::Mat &addImg, int x, int y, int
         }
     }
 
+    cpyAddImg.copyTo(src(cv::Rect(cv::Point(x, y), cpyAddImg.size())));
+}
+
+void Utils::addImgToImgSimple(cv::Mat &src, cv::Mat &addImg, int x, int y, int w, int h) {
+    cv::Mat cpyAddImg;
+    cv::resize(addImg, cpyAddImg, cv::Size(w, h));
     cpyAddImg.copyTo(src(cv::Rect(cv::Point(x, y), cpyAddImg.size())));
 }
