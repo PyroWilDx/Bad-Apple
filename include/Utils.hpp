@@ -5,17 +5,17 @@
 #ifndef BADAPPLE_UTILS_HPP
 #define BADAPPLE_UTILS_HPP
 
-//#define ALPHA
+// #define ALPHA
 #define MODE 0
 
 #define WAIT_TIME 1
 
-//#define TARGET_WIDTH 480
-//#define TARGET_HEIGHT 360
-//#define TARGET_WIDTH 960
-//#define TARGET_HEIGHT 720
-//#define TARGET_WIDTH 1440
-//#define TARGET_HEIGHT 1080
+// #define TARGET_WIDTH 480
+// #define TARGET_HEIGHT 360
+// #define TARGET_WIDTH 960
+// #define TARGET_HEIGHT 720
+// #define TARGET_WIDTH 1440
+// #define TARGET_HEIGHT 1080
 #define TARGET_WIDTH 2880
 #define TARGET_HEIGHT 2160
 
