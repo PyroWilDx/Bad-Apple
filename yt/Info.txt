@@ -2,16 +2,24 @@
 Add Music : ffmpeg -i <video> -i <music> -c copy -map 0 -map 1 -shortest <output>
 Alpha : ffmpeg -framerate 30 -i frame%d.png -c:v png -pix_fmt rgba AlphaOutput.mov
 
+=============
+
 - <!> Add Border To Youtube Thumbnail <!>
 
+=============
+
 - Title :
+
 # Mode 0
 Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos
 
 # Mode 1
 Bad Apple!! but Every Pixel is a Random "Bad Apple!! but..." Video
 
+=============
+
 - Description :
+
 # Mode 0
 Original "Bad Apple!!" Video : https://www.youtube.com/watch?v=FtutLA63Cp8
 
@@ -117,3 +125,5 @@ Used Videos :
 • "Bad Apple!! but It's ScreenSaver Style" - https://www.youtube.com/watch?v=so64S8XAySQ
 • "Bad Apple!! but On Windows 10 Task Manager" - https://www.youtube.com/watch?v=sBeI30ccb6g
 • "Bad Apple!! but It's a Windows Virus" - https://www.youtube.com/watch?v=EZpZwunMzuE
+
+=============

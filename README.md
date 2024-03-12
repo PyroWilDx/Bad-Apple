@@ -8,4 +8,4 @@ Bad Apple!! but It's Made of Random "Bad Apple!! but..." Videos &ndash; [https:/
 
 Bad Apple!! but Every Pixel is a Random "Bad Apple!! but..." Video &ndash; [https://youtu.be/TzOjLlV2Yak](https://youtu.be/TzOjLlV2Yak).
 
-![Thumbnail](youtube/Thumbnail.png)
+![Thumbnail](yt/Thumbnail.png)
